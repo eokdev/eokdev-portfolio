@@ -1,0 +1,41 @@
+name: eokdev_portfolio
+description: Portfolio of Emmanuel Olorunshola. Flutter engineer.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.3.2
+  url_launcher: ^6.3.2
+  visibility_detector: ^0.4.0+2
+  http: ^1.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/avatar.jpg
+    - assets/images/hero.jpg
+    - assets/images/about.jpg
+    - assets/docs/emmanuel_resume.pdf
+    - assets/images/apps/ikore_path/
+    - assets/images/apps/nexodius/
+    - assets/images/apps/tractrac_plus/
+    - assets/images/apps/tractrac_agent/
+    - assets/images/apps/atom_office/
+    - assets/images/apps/autovendy/
+    - assets/images/apps/autovendy_dealer/
+    - assets/images/apps/dream_planet/
+    - assets/images/apps/blinkers/
+    - assets/images/apps/medik/
+    - assets/images/apps/service_rendering/
+    - assets/images/apps/tradevila/
