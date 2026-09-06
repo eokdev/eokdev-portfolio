@@ -58,6 +58,10 @@
         radial-gradient(ellipse at 10% 90%, rgba(139, 105, 20, 0.14) 0%, transparent 36%),
         linear-gradient(135deg, #0B0A0C, #1A1410, #120E14);
     }
+    html.chrome-ios #flutter-host {
+      height: 100lvh;
+      min-height: 100vh;
+    }
     #flutter-host {
       position: fixed;
       inset: 0;
@@ -157,6 +161,19 @@
   </div>
   <script>
     (function () {
+      var chromeIos = /CriOS/i.test(navigator.userAgent);
+      if (chromeIos) {
+        document.documentElement.classList.add('chrome-ios');
+        var host = document.getElementById('flutter-host');
+        var large = Math.max(
+          window.screen.height || 0,
+          window.innerHeight || 0,
+          document.documentElement.clientHeight || 0
+        );
+        host.style.height = large + 'px';
+        host.style.minHeight = '100lvh';
+      }
+
       function hideLoader() {
         var el = document.getElementById('app-loader');
         if (!el || el.classList.contains('is-gone')) return;
