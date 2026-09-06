@@ -8,23 +8,24 @@ class SectionShell extends StatelessWidget {
     super.key,
     required this.idKey,
     required this.child,
-    this.top = 88,
-    this.bottom = 40,
+    this.top,
+    this.bottom = 24,
   });
 
   final GlobalKey idKey;
   final Widget child;
-  final double top;
+  final double? top;
   final double bottom;
 
   @override
   Widget build(BuildContext context) {
+    final sectionTop = top ?? (context.isCompact ? 28.0 : 40.0);
     return KeyedSubtree(
       key: idKey,
       child: Padding(
         padding: EdgeInsets.fromLTRB(
           context.sitePad,
-          top,
+          sectionTop,
           context.sitePad,
           bottom,
         ),

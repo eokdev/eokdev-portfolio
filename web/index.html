@@ -39,22 +39,20 @@
     html, body {
       width: 100%;
       height: 100%;
-      min-height: 100svh;
-      min-height: -webkit-fill-available;
       margin: 0;
       padding: 0;
       overflow: hidden;
       background: #0B0A0C;
     }
-    body {
+    #flutter-host {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 100%;
+      height: 100dvh;
     }
-    flutter-view, flt-glass-pane {
-      position: fixed !important;
-      inset: 0 !important;
+    #flutter-host flutter-view,
+    #flutter-host flt-glass-pane {
       width: 100% !important;
       height: 100% !important;
     }
@@ -128,6 +126,7 @@
   </style>
 </head>
 <body>
+  <div id="flutter-host"></div>
   <div id="app-loader" aria-live="polite" aria-label="Loading">
     <div class="loader-mark">
       <div class="loader-ring"></div>
@@ -138,8 +137,23 @@
   </div>
   <script>
     (function () {
-      function nudgeFlutter() {
-        window.dispatchEvent(new Event('resize'));
+      var host = document.getElementById('flutter-host');
+      var resizeTimer;
+
+      function syncViewport() {
+        var vv = window.visualViewport;
+        var h = vv ? vv.height : window.innerHeight;
+        var w = vv ? vv.width : window.innerWidth;
+        var top = vv ? vv.offsetTop : 0;
+        var left = vv ? vv.offsetLeft : 0;
+        host.style.top = top + 'px';
+        host.style.left = left + 'px';
+        host.style.width = w + 'px';
+        host.style.height = h + 'px';
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          window.dispatchEvent(new Event('resize'));
+        }, 40);
       }
 
       function hideLoader() {
@@ -149,33 +163,23 @@
         setTimeout(function () { el.remove(); }, 500);
       }
 
-      function afterFirstPaint() {
-        hideLoader();
-        [0, 60, 180, 360, 700, 1200].forEach(function (ms) {
-          setTimeout(nudgeFlutter, ms);
-        });
-      }
-
-      window.addEventListener('flutter-first-frame', afterFirstPaint);
-      window.addEventListener('pageshow', nudgeFlutter);
-      document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible') nudgeFlutter();
-      });
+      syncViewport();
+      window.addEventListener('resize', syncViewport);
       window.addEventListener('orientationchange', function () {
-        setTimeout(nudgeFlutter, 200);
+        setTimeout(syncViewport, 200);
       });
-
-      var seenView = 0;
-      var timer = setInterval(function () {
-        if (document.querySelector('flt-glass-pane') || document.querySelector('flutter-view')) {
-          seenView += 1;
-          if (seenView === 1) nudgeFlutter();
-          if (seenView > 12) {
-            clearInterval(timer);
-            hideLoader();
-          }
-        }
-      }, 150);
+      window.addEventListener('pageshow', syncViewport);
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') syncViewport();
+      });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncViewport);
+        window.visualViewport.addEventListener('scroll', syncViewport);
+      }
+      window.addEventListener('flutter-first-frame', function () {
+        hideLoader();
+        syncViewport();
+      });
     })();
   </script>
   <script src="flutter_bootstrap.js" async></script>

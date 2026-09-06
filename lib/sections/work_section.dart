@@ -21,7 +21,6 @@ class WorkSection extends StatelessWidget {
 
     return SectionShell(
       idKey: idKey,
-      top: compact ? 28 : 40,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

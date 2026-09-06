@@ -3,6 +3,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import 'pages/home_page.dart';
 import 'theme/app_theme.dart';
+import 'utils/viewport.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,9 @@ class _PortfolioAppState extends State<PortfolioApp> with WidgetsBindingObserver
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    bindViewportMetrics(() {
+      WidgetsBinding.instance.handleMetricsChanged();
+    });
   }
 
   @override
