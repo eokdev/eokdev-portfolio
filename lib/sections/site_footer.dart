@@ -24,11 +24,13 @@ class SiteFooter extends StatelessWidget {
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: context.siteMax),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Divider(color: AppColors.border.withValues(alpha: 0.7)),
               const SizedBox(height: 22),
               Wrap(
                 alignment: WrapAlignment.spaceBetween,
+                runAlignment: WrapAlignment.center,
                 runSpacing: 12,
                 spacing: 16,
                 children: [
@@ -49,6 +51,7 @@ class SiteFooter extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 'Built with Flutter and Dart · Stays readable on a phone and a wide monitor.',
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontSize: 12,
                 ),
