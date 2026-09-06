@@ -42,14 +42,20 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background: #0B0A0C;
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(201, 162, 90, 0.25) 0%, transparent 42%),
+        radial-gradient(ellipse at 85% 85%, rgba(156, 59, 47, 0.18) 0%, transparent 40%),
+        radial-gradient(ellipse at 10% 90%, rgba(139, 105, 20, 0.14) 0%, transparent 36%),
+        linear-gradient(135deg, #0B0A0C, #1A1410, #120E14);
     }
     #flutter-host {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100dvh;
+      height: 100lvh;
+      height: -webkit-fill-available;
+      min-height: 100vh;
     }
     #flutter-host flutter-view,
     #flutter-host flt-glass-pane {
@@ -137,25 +143,6 @@
   </div>
   <script>
     (function () {
-      var host = document.getElementById('flutter-host');
-      var resizeTimer;
-
-      function syncViewport() {
-        var vv = window.visualViewport;
-        var h = vv ? vv.height : window.innerHeight;
-        var w = vv ? vv.width : window.innerWidth;
-        var top = vv ? vv.offsetTop : 0;
-        var left = vv ? vv.offsetLeft : 0;
-        host.style.top = top + 'px';
-        host.style.left = left + 'px';
-        host.style.width = w + 'px';
-        host.style.height = h + 'px';
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-          window.dispatchEvent(new Event('resize'));
-        }, 40);
-      }
-
       function hideLoader() {
         var el = document.getElementById('app-loader');
         if (!el || el.classList.contains('is-gone')) return;
@@ -163,23 +150,16 @@
         setTimeout(function () { el.remove(); }, 500);
       }
 
-      syncViewport();
-      window.addEventListener('resize', syncViewport);
-      window.addEventListener('orientationchange', function () {
-        setTimeout(syncViewport, 200);
-      });
-      window.addEventListener('pageshow', syncViewport);
-      document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible') syncViewport();
-      });
-      if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', syncViewport);
-        window.visualViewport.addEventListener('scroll', syncViewport);
-      }
-      window.addEventListener('flutter-first-frame', function () {
-        hideLoader();
-        syncViewport();
-      });
+      window.addEventListener('flutter-first-frame', hideLoader);
+
+      var checks = 0;
+      var timer = setInterval(function () {
+        checks++;
+        if (document.querySelector('flt-glass-pane') || document.querySelector('flutter-view')) {
+          if (checks > 15) { clearInterval(timer); hideLoader(); }
+        }
+        if (checks > 60) { clearInterval(timer); hideLoader(); }
+      }, 200);
     })();
   </script>
   <script src="flutter_bootstrap.js" async></script>
