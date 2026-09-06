@@ -92,7 +92,7 @@ class HeroSection extends StatelessWidget {
     return SectionShell(
       idKey: idKey,
       top: compact ? 28 : 48,
-      bottom: 24,
+      bottom: 8,
       child: Reveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

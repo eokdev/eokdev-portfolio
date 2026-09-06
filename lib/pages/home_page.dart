@@ -7,6 +7,8 @@ import '../sections/hero_section.dart';
 import '../sections/site_footer.dart';
 import '../sections/skills_section.dart';
 import '../sections/work_section.dart';
+import '../theme/app_colors.dart';
+import '../utils/reload_app.dart';
 import '../widgets/site_nav.dart';
 
 class HomePage extends StatefulWidget {
@@ -96,33 +98,42 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Stack(
                   children: [
-                    CustomScrollView(
-                      controller: _scroll,
-                      slivers: [
-                        SliverToBoxAdapter(
-                          child: HeroSection(
-                            idKey: _keys['hero']!,
-                            onViewWork: () => _goTo('work'),
-                            onContact: () => _goTo('contact'),
+                    RefreshIndicator(
+                      color: AppColors.accent,
+                      backgroundColor: AppColors.bgElevated,
+                      displacement: 48,
+                      onRefresh: reloadApp,
+                      child: CustomScrollView(
+                        controller: _scroll,
+                        physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics(),
+                        ),
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: HeroSection(
+                              idKey: _keys['hero']!,
+                              onViewWork: () => _goTo('work'),
+                              onContact: () => _goTo('contact'),
+                            ),
                           ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: WorkSection(idKey: _keys['work']!),
-                        ),
-                        SliverToBoxAdapter(
-                          child: ExperienceSection(idKey: _keys['experience']!),
-                        ),
-                        SliverToBoxAdapter(
-                          child: SkillsSection(idKey: _keys['skills']!),
-                        ),
-                        SliverToBoxAdapter(
-                          child: AboutSection(idKey: _keys['about']!),
-                        ),
-                        SliverToBoxAdapter(
-                          child: ContactSection(idKey: _keys['contact']!),
-                        ),
-                        const SliverToBoxAdapter(child: SiteFooter()),
-                      ],
+                          SliverToBoxAdapter(
+                            child: WorkSection(idKey: _keys['work']!),
+                          ),
+                          SliverToBoxAdapter(
+                            child: ExperienceSection(idKey: _keys['experience']!),
+                          ),
+                          SliverToBoxAdapter(
+                            child: SkillsSection(idKey: _keys['skills']!),
+                          ),
+                          SliverToBoxAdapter(
+                            child: AboutSection(idKey: _keys['about']!),
+                          ),
+                          SliverToBoxAdapter(
+                            child: ContactSection(idKey: _keys['contact']!),
+                          ),
+                          const SliverToBoxAdapter(child: SiteFooter()),
+                        ],
+                      ),
                     ),
                     if (_menuOpen)
                       Positioned.fill(
