@@ -5,7 +5,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://www.gstatic.com https://r.jina.ai ws: wss: http://127.0.0.1:* http://localhost:*; worker-src 'self' blob:; child-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -25,6 +25,7 @@
   <meta name="twitter:description" content="Production Flutter apps for any product that belongs on a phone.">
 
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="eokdev">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
@@ -35,14 +36,148 @@
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link rel="manifest" href="manifest.json">
   <style>
+    :root { --app-h: 100dvh; }
     html, body {
-      height: 100%;
+      width: 100%;
+      height: var(--app-h);
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
       margin: 0;
+      padding: 0;
+      overflow: hidden;
       background: #0B0A0C;
+      overscroll-behavior: none;
+    }
+    body {
+      position: fixed;
+      inset: 0;
+    }
+    flutter-view, flt-glass-pane {
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #app-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(201, 162, 90, 0.18), transparent 42%),
+        radial-gradient(ellipse at 90% 80%, rgba(156, 59, 47, 0.16), transparent 40%),
+        #0B0A0C;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+    #app-loader.is-gone {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loader-mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .loader-ring {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(228, 201, 137, 0.18);
+      border-top-color: #C9A25A;
+      animation: loader-spin 0.9s linear infinite;
+    }
+    .loader-word {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      color: #F6F0E6;
+    }
+    .loader-sub {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #C9A25A;
+    }
+    .loader-bar {
+      width: 92px;
+      height: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: rgba(228, 201, 137, 0.16);
+    }
+    .loader-bar i {
+      display: block;
+      width: 40%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, #E4C989, transparent);
+      animation: loader-slide 1.2s ease-in-out infinite;
+    }
+    @keyframes loader-spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes loader-slide {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(280%); }
     }
   </style>
 </head>
 <body>
+  <div id="app-loader" aria-live="polite" aria-label="Loading">
+    <div class="loader-mark">
+      <div class="loader-ring"></div>
+      <span class="loader-word">eokdev</span>
+      <span class="loader-sub">Flutter Engineer</span>
+      <div class="loader-bar"><i></i></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      function fitApp() {
+        var vv = window.visualViewport;
+        var h = vv ? vv.height : window.innerHeight;
+        document.documentElement.style.setProperty('--app-h', h + 'px');
+        var view = document.querySelector('flutter-view');
+        if (view) {
+          view.style.height = h + 'px';
+          view.style.width = (vv ? vv.width : window.innerWidth) + 'px';
+        }
+      }
+      fitApp();
+      window.addEventListener('resize', fitApp);
+      window.addEventListener('orientationchange', fitApp);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', fitApp);
+        window.visualViewport.addEventListener('scroll', fitApp);
+      }
+
+      function hideLoader() {
+        var el = document.getElementById('app-loader');
+        if (!el || el.classList.contains('is-gone')) return;
+        el.classList.add('is-gone');
+        setTimeout(function () { el.remove(); }, 500);
+      }
+      window.addEventListener('flutter-first-frame', function () {
+        hideLoader();
+        clearInterval(timer);
+      });
+      var seenView = 0;
+      var timer = setInterval(function () {
+        if (document.querySelector('flt-glass-pane') || document.querySelector('flutter-view')) {
+          fitApp();
+          seenView += 1;
+          if (seenView > 10) {
+            clearInterval(timer);
+            hideLoader();
+          }
+        }
+      }, 150);
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

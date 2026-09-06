@@ -15,6 +15,8 @@ void main() {
     expect(html, contains("frame-src 'none'"));
     expect(html, contains("object-src 'none'"));
     expect(html, contains('https://www.gstatic.com'));
+    expect(html, contains('viewport-fit=cover'));
+    expect(html, contains('id="app-loader"'));
     expect(html, isNot(contains('http://example')));
   });
 

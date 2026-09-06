@@ -18,7 +18,7 @@ class SiteFooter extends StatelessWidget {
         context.sitePad,
         48,
         context.sitePad,
-        36,
+        36 + MediaQuery.paddingOf(context).bottom,
       ),
       child: Center(
         child: ConstrainedBox(
