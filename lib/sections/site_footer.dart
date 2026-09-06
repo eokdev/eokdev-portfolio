@@ -24,28 +24,22 @@ class SiteFooter extends StatelessWidget {
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: context.siteMax),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Divider(color: AppColors.border.withValues(alpha: 0.7)),
               const SizedBox(height: 22),
+              Text(
+                '© $year ${profile.fullName}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 10),
               Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                runAlignment: WrapAlignment.center,
-                runSpacing: 12,
+                alignment: WrapAlignment.center,
                 spacing: 16,
                 children: [
-                  Text(
-                    '© $year ${profile.fullName}',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  Wrap(
-                    spacing: 16,
-                    children: [
-                      _Link('GitHub', () => openUrl(profile.github)),
-                      _Link('LinkedIn', () => openUrl(profile.linkedin)),
-                      _Link('Email', () => openMail(profile.email)),
-                    ],
-                  ),
+                  _Link('GitHub', () => openUrl(profile.github)),
+                  _Link('LinkedIn', () => openUrl(profile.linkedin)),
+                  _Link('Email', () => openMail(profile.email)),
                 ],
               ),
               const SizedBox(height: 10),

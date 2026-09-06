@@ -167,7 +167,9 @@ class ScreenshotStrip extends StatelessWidget {
     final height = context.isCompact ? 240.0 : 300.0;
     return SizedBox(
       height: height,
-      child: ListView.separated(
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: ListView.separated(
         scrollDirection: Axis.horizontal,
         cacheExtent: 280,
         addAutomaticKeepAlives: false,
@@ -183,6 +185,7 @@ class ScreenshotStrip extends StatelessWidget {
             ),
           );
         },
+      ),
       ),
     );
   }

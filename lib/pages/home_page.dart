@@ -8,6 +8,7 @@ import '../sections/site_footer.dart';
 import '../sections/skills_section.dart';
 import '../sections/work_section.dart';
 import '../theme/app_colors.dart';
+import '../theme/layout.dart';
 import '../utils/reload_app.dart';
 import '../widgets/site_nav.dart';
 
@@ -98,7 +99,11 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Stack(
                   children: [
-                    RefreshIndicator(
+                    ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(
+                        scrollbars: !context.isCompact,
+                      ),
+                      child: RefreshIndicator(
                       color: AppColors.accent,
                       backgroundColor: AppColors.bgElevated,
                       displacement: 48,
@@ -134,6 +139,7 @@ class _HomePageState extends State<HomePage> {
                           const SliverToBoxAdapter(child: SiteFooter()),
                         ],
                       ),
+                    ),
                     ),
                     if (_menuOpen)
                       Positioned.fill(
