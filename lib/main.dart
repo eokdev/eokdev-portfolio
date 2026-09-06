@@ -27,6 +27,9 @@ class _PortfolioAppState extends State<PortfolioApp> with WidgetsBindingObserver
     bindViewportMetrics(() {
       WidgetsBinding.instance.handleMetricsChanged();
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.handleMetricsChanged();
+    });
   }
 
   @override
