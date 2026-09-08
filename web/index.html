@@ -48,7 +48,7 @@
     (function () {
       try {
         var pref = localStorage.getItem('eokdev-theme');
-        var dark = pref === 'dark' || (pref !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var dark = pref !== 'light';
         if (dark) document.documentElement.classList.add('dark');
       } catch (e) {}
     })();
@@ -246,7 +246,7 @@
     <button type="button" id="web-nav-home" aria-label="Home">
       <img src="nav-avatar.jpg" alt="">
     </button>
-    <a id="web-nav-mail" href="mailto:eokdeveloper@gmail.com">eokdeveloper@gmail.com</a>
+    <a id="web-nav-mail" href="mailto:eokdeveloper@gmail.com">eokdev</a>
     <button type="button" id="web-nav-theme" aria-label="Use dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M15.5 3.5a8.2 8.2 0 1 0 5 14.2 7.2 7.2 0 0 1-5-14.2z"/>

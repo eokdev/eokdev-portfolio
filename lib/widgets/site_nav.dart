@@ -77,7 +77,7 @@ class SiteNav extends StatelessWidget {
                 onTap: () => openMail(PortfolioData.profile.email),
                 borderRadius: BorderRadius.circular(8),
                 child: Text(
-                  PortfolioData.profile.email,
+                  'eokdev',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(

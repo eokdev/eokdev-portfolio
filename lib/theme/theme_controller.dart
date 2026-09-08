@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/theme_pref.dart';
 
 class ThemeController extends ChangeNotifier {
-  ThemeController() : _mode = readStoredThemeMode() ?? ThemeMode.system;
+  ThemeController() : _mode = readStoredThemeMode() ?? ThemeMode.dark;
 
   ThemeMode _mode;
   ThemeMode get mode => _mode;
