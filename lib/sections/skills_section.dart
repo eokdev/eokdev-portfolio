@@ -89,7 +89,7 @@ class _SkillCard extends StatelessWidget {
               child: Text(
                 item,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.text,
+                  color: context.colors.text,
                 ),
               ),
             ),

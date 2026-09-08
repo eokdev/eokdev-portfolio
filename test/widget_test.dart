@@ -1,6 +1,7 @@
 import 'package:eokdev_portfolio/main.dart';
 import 'package:eokdev_portfolio/utils/play_downloads.dart';
 import 'package:eokdev_portfolio/widgets/cached_asset_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -29,18 +30,68 @@ void main() {
 
     expect(find.textContaining('Emmanuel'), findsWidgets);
     expect(find.textContaining('Olorunshola'), findsWidgets);
-    expect(find.text('See selected work'), findsOneWidget);
+    expect(find.text('Get in touch'), findsOneWidget);
     expect(find.text('App downloads'), findsOneWidget);
     expect(find.textContaining('Farmers'), findsNothing);
   });
 
-  testWidgets('selected work lists production apps', (tester) async {
+  testWidgets('theme toggle switches the site to dark', (tester) async {
     await pumpPortfolio(tester);
 
-    expect(find.text('Apps in production.', skipOffstage: false), findsOneWidget);
-    expect(find.text('Dream Planet', skipOffstage: false), findsOneWidget);
-    expect(find.text('Autovendy', skipOffstage: false), findsOneWidget);
-    expect(find.text('TradeVila', skipOffstage: false), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.moon), findsOneWidget);
+    await tester.tap(find.byIcon(CupertinoIcons.moon));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+
+    expect(find.byIcon(CupertinoIcons.sun_max), findsOneWidget);
+    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+    expect(scaffold.backgroundColor, const Color(0xFF141312));
+  });
+
+  testWidgets('hamburger opens section menu', (tester) async {
+    await pumpPortfolio(tester);
+
+    await tester.tap(find.byIcon(CupertinoIcons.bars));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+
+    expect(find.text('Work'), findsOneWidget);
+    expect(find.text('Download resume'), findsOneWidget);
+  });
+
+  testWidgets('selected work lists production apps', (tester) async {
+    await pumpPortfolio(tester, size: const Size(1280, 2200));
+
+    expect(find.text('Apps in production.'), findsOneWidget);
+    expect(find.text('Dream Planet'), findsOneWidget);
+  });
+
+  testWidgets('bento grid shows experience map and process', (tester) async {
+    await pumpPortfolio(tester, size: const Size(1280, 1600));
+
+    expect(find.text('MY EXPERIENCE'), findsOneWidget);
+    expect(find.text('SELECTED APPS'), findsOneWidget);
+    expect(find.text('BY THE NUMBERS'), findsOneWidget);
+    expect(find.text('HOW I WORK'), findsOneWidget);
+    expect(find.text('ABUJA'), findsOneWidget);
+    expect(find.text('Open to work.'), findsOneWidget);
+  });
+
+  testWidgets('tablet width keeps bento cards readable', (tester) async {
+    await pumpPortfolio(tester, size: const Size(820, 1180));
+
+    expect(find.text('MY EXPERIENCE'), findsOneWidget);
+    expect(find.text('SELECTED APPS'), findsOneWidget);
+    expect(find.text('Get in touch'), findsOneWidget);
+    expect(find.text('HOW I WORK'), findsOneWidget);
+  });
+
+  testWidgets('phone hero keeps the greeting and call button', (tester) async {
+    await pumpPortfolio(tester, size: const Size(390, 844));
+
+    expect(find.text('Get in touch'), findsOneWidget);
+    expect(find.text('Open to work.'), findsOneWidget);
+    expect(find.textContaining('Emmanuel'), findsWidgets);
   });
 
   testWidgets('about and contact stay reachable on a phone width', (tester) async {

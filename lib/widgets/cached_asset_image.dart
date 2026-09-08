@@ -58,6 +58,7 @@ class CachedAssetImage extends StatelessWidget {
       gaplessPlayback: true,
       cacheWidth: cacheW,
       cacheHeight: cacheH,
+      excludeFromSemantics: true,
     );
   }
 }

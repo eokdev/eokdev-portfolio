@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
@@ -27,46 +24,26 @@ class Glass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = DecoratedBox(
-      decoration: BoxDecoration(
-        color: tint ?? AppColors.glass,
-        borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: border ?? AppColors.border),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0x38F6E7C4),
-            Color(0x14F6F0E6),
-            Color(0x08C9A25A),
-          ],
-        ),
-      ),
-      child: padding == null ? child : Padding(padding: padding!, child: child),
-    );
-
-    final clipped = ClipRRect(
-      borderRadius: BorderRadius.circular(radius),
-      child: frosted && !kIsWeb
-          ? BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-              child: content,
-            )
-          : content,
-    );
-
+    assert(blur >= 0);
+    assert(!frosted || frosted);
+    final colors = context.colors;
     return DecoratedBox(
       decoration: BoxDecoration(
+        color: tint ?? colors.card,
         borderRadius: BorderRadius.circular(radius),
-        boxShadow: const [
+        border: Border.all(color: border ?? colors.border),
+        boxShadow: [
           BoxShadow(
-            color: Color(0x33000000),
-            blurRadius: 36,
-            offset: Offset(0, 18),
+            color: colors.shadow,
+            blurRadius: 28,
+            offset: const Offset(0, 12),
           ),
         ],
       ),
-      child: clipped,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: padding == null ? child : Padding(padding: padding!, child: child),
+      ),
     );
   }
 }

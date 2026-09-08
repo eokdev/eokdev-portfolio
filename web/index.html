@@ -6,11 +6,11 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#0B0A0C">
-  <meta name="theme-color" content="#0B0A0C" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0B0A0C" media="(prefers-color-scheme: dark)">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://www.gstatic.com https://r.jina.ai ws: wss: http://127.0.0.1:* http://localhost:*; worker-src 'self' blob:; child-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#E7E7E8">
+  <meta name="theme-color" content="#E7E7E8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com https://triangle-analytics.vercel.app; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com https://www.gstatic.com https://r.jina.ai https://triangle-analytics.vercel.app ws: wss: http://127.0.0.1:* http://localhost:*; worker-src 'self' blob:; child-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()">
@@ -29,7 +29,7 @@
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="eokdev">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
   <link rel="icon" type="image/png" href="favicon.png"/>
@@ -37,12 +37,31 @@
   <title>Emmanuel Olorunshola · Flutter Engineer</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://triangle-analytics.vercel.app">
   <link rel="manifest" href="manifest.json">
+  <script
+    defer
+    src="https://triangle-analytics.vercel.app/tracker.js"
+    data-site-id="tri_930129"
+  ></script>
+  <script>
+    (function () {
+      try {
+        var pref = localStorage.getItem('eokdev-theme');
+        var dark = pref === 'dark' || (pref !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    })();
+  </script>
   <style>
-    :root { color-scheme: only dark; }
+    :root { color-scheme: light dark; }
     html {
-      color-scheme: only dark;
-      background: #0B0A0C;
+      color-scheme: light dark;
+      background: #E7E7E8;
+    }
+    html.dark {
+      color-scheme: dark;
+      background: #141312;
     }
     html, body {
       position: fixed;
@@ -52,11 +71,10 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background:
-        radial-gradient(ellipse at 15% 0%, rgba(201, 162, 90, 0.25) 0%, transparent 42%),
-        radial-gradient(ellipse at 85% 85%, rgba(156, 59, 47, 0.18) 0%, transparent 40%),
-        radial-gradient(ellipse at 10% 90%, rgba(139, 105, 20, 0.14) 0%, transparent 36%),
-        linear-gradient(135deg, #0B0A0C, #1A1410, #120E14);
+      background: #E7E7E8;
+    }
+    html.dark, html.dark body {
+      background: #141312;
     }
     html.chrome-ios #flutter-host {
       height: 100lvh;
@@ -64,20 +82,24 @@
     }
     #flutter-host {
       position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      background:
-        radial-gradient(ellipse at 15% 0%, rgba(201, 162, 90, 0.25) 0%, transparent 42%),
-        radial-gradient(ellipse at 85% 85%, rgba(156, 59, 47, 0.18) 0%, transparent 40%),
-        radial-gradient(ellipse at 10% 90%, rgba(139, 105, 20, 0.14) 0%, transparent 36%),
-        linear-gradient(135deg, #0B0A0C, #1A1410, #120E14);
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #E7E7E8;
+    }
+    html.dark #flutter-host {
+      background: #141312;
     }
     #flutter-host flutter-view,
     #flutter-host flt-glass-pane,
     #flutter-host canvas {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
       width: 100% !important;
       height: 100% !important;
+      max-width: none !important;
       background: transparent !important;
     }
     #app-loader {
@@ -86,78 +108,161 @@
       z-index: 9999;
       display: grid;
       place-items: center;
-      background:
-        radial-gradient(ellipse at 20% 0%, rgba(201, 162, 90, 0.18), transparent 42%),
-        radial-gradient(ellipse at 90% 80%, rgba(156, 59, 47, 0.16), transparent 40%),
-        #0B0A0C;
-      transition: opacity 0.45s ease, visibility 0.45s ease;
+      background: #E7E7E8;
+      transition: opacity 0.3s ease;
+    }
+    html.dark #app-loader {
+      background: #141312;
     }
     #app-loader.is-gone {
       opacity: 0;
-      visibility: hidden;
       pointer-events: none;
     }
-    .loader-mark {
+    #app-loader span {
+      font: 400 15px/1.4 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #748079;
+    }
+    html.dark #app-loader span {
+      color: #9C9D98;
+    }
+    #web-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10001;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
+      padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+      background: #E7E7E8;
+      box-sizing: border-box;
     }
-    .loader-ring {
-      width: 56px;
-      height: 56px;
+    html.dark #web-nav {
+      background: #141312;
+    }
+    @media (min-width: 700px) {
+      #web-nav {
+        padding-left: max(32px, env(safe-area-inset-left));
+        padding-right: max(32px, env(safe-area-inset-right));
+      }
+    }
+    @media (min-width: 1080px) {
+      #web-nav {
+        padding-left: max(56px, env(safe-area-inset-left));
+        padding-right: max(56px, env(safe-area-inset-right));
+      }
+    }
+    @media (min-width: 1400px) {
+      #web-nav {
+        padding-left: max(80px, env(safe-area-inset-left));
+        padding-right: max(80px, env(safe-area-inset-right));
+      }
+    }
+    #web-nav-home {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+      line-height: 0;
+    }
+    #web-nav-home img {
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      border: 1.5px solid rgba(228, 201, 137, 0.18);
-      border-top-color: #C9A25A;
-      animation: loader-spin 0.9s linear infinite;
-    }
-    .loader-word {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 28px;
-      letter-spacing: 0.08em;
-      color: #F6F0E6;
-    }
-    .loader-sub {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: #C9A25A;
-    }
-    .loader-bar {
-      width: 92px;
-      height: 2px;
-      margin-top: 6px;
-      overflow: hidden;
-      border-radius: 99px;
-      background: rgba(228, 201, 137, 0.16);
-    }
-    .loader-bar i {
+      object-fit: cover;
       display: block;
-      width: 40%;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, transparent, #E4C989, transparent);
-      animation: loader-slide 1.2s ease-in-out infinite;
     }
-    @keyframes loader-spin {
-      to { transform: rotate(360deg); }
+    #web-nav-mail {
+      flex: 1;
+      min-width: 0;
+      color: #080605;
+      text-decoration: none;
+      font: 500 13px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    @keyframes loader-slide {
-      0% { transform: translateX(-120%); }
-      100% { transform: translateX(280%); }
+    html.dark #web-nav-mail {
+      color: #F3F1EE;
+    }
+    #web-nav-theme,
+    #web-nav-menu {
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 50%;
+      background: #F4F4F2;
+      cursor: pointer;
+      padding: 0;
+      color: #080605;
+    }
+    html.dark #web-nav-theme,
+    html.dark #web-nav-menu {
+      background: #1C1B19;
+      color: #F3F1EE;
+    }
+    #web-nav-theme {
+      margin-left: auto;
+      display: grid;
+      place-items: center;
+    }
+    #web-nav-theme svg {
+      display: none;
+      width: 18px;
+      height: 18px;
+    }
+    html:not(.dark) #web-nav-theme .icon-moon { display: block; }
+    html.dark #web-nav-theme .icon-sun { display: block; }
+    #web-nav-menu {
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 4px;
+    }
+    #web-nav-menu i {
+      display: block;
+      width: 16px;
+      height: 1.5px;
+      background: #080605;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    html.dark #web-nav-menu i {
+      background: #F3F1EE;
+    }
+    #web-nav-menu.is-open i:nth-child(1) {
+      transform: translateY(5.5px) rotate(45deg);
+    }
+    #web-nav-menu.is-open i:nth-child(2) {
+      opacity: 0;
+    }
+    #web-nav-menu.is-open i:nth-child(3) {
+      transform: translateY(-5.5px) rotate(-45deg);
     }
   </style>
 </head>
 <body>
+  <header id="web-nav">
+    <button type="button" id="web-nav-home" aria-label="Home">
+      <img src="nav-avatar.jpg" alt="">
+    </button>
+    <a id="web-nav-mail" href="mailto:eokdeveloper@gmail.com">eokdeveloper@gmail.com</a>
+    <button type="button" id="web-nav-theme" aria-label="Use dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15.5 3.5a8.2 8.2 0 1 0 5 14.2 7.2 7.2 0 0 1-5-14.2z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>
+      </svg>
+    </button>
+    <button type="button" id="web-nav-menu" aria-label="Open menu">
+      <i></i><i></i><i></i>
+    </button>
+  </header>
   <div id="flutter-host"></div>
   <div id="app-loader" aria-live="polite" aria-label="Loading">
-    <div class="loader-mark">
-      <div class="loader-ring"></div>
-      <span class="loader-word">eokdev</span>
-      <span class="loader-sub">Flutter Engineer</span>
-      <div class="loader-bar"><i></i></div>
-    </div>
+    <span>Loading…</span>
   </div>
   <script>
     (function () {
@@ -178,18 +283,21 @@
         var el = document.getElementById('app-loader');
         if (!el || el.classList.contains('is-gone')) return;
         el.classList.add('is-gone');
-        setTimeout(function () { el.remove(); }, 500);
+        setTimeout(function () { el.remove(); }, 280);
       }
 
-      window.addEventListener('flutter-first-frame', hideLoader);
+      window.addEventListener('flutter-first-frame', function () {
+        hideLoader();
+        clearInterval(timer);
+      });
 
       var checks = 0;
       var timer = setInterval(function () {
         checks++;
-        if (document.querySelector('flt-glass-pane') || document.querySelector('flutter-view')) {
-          if (checks > 15) { clearInterval(timer); hideLoader(); }
+        if (checks > 150) {
+          clearInterval(timer);
+          hideLoader();
         }
-        if (checks > 60) { clearInterval(timer); hideLoader(); }
       }, 200);
     })();
   </script>

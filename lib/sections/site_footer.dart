@@ -25,7 +25,7 @@ class SiteFooter extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: context.siteMax),
           child: Column(
             children: [
-              Divider(color: AppColors.border.withValues(alpha: 0.7)),
+              Divider(color: context.colors.border),
               const SizedBox(height: 22),
               Text(
                 '© $year ${profile.fullName}',
@@ -71,7 +71,8 @@ class _Link extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: AppColors.accentSoft,
+          color: context.colors.accent,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

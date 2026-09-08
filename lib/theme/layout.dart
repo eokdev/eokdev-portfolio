@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract final class Breakpoints {
-  static const compact = 880.0;
-  static const medium = 1180.0;
+  static const compact = 700.0;
+  static const medium = 1080.0;
 }
 
 enum SiteSize { compact, medium, expanded }
@@ -15,17 +15,18 @@ SiteSize siteSizeOf(BuildContext context) {
 }
 
 double sitePaddingOf(BuildContext context) {
-  return switch (siteSizeOf(context)) {
-    SiteSize.compact => 20,
-    SiteSize.medium => 40,
-    SiteSize.expanded => 80,
-  };
+  final width = MediaQuery.sizeOf(context).width;
+  if (width < 400) return 16;
+  if (width < Breakpoints.compact) return 20;
+  if (width < Breakpoints.medium) return 32;
+  if (width < 1400) return 56;
+  return 80;
 }
 
 double siteMaxWidthOf(BuildContext context) {
   return switch (siteSizeOf(context)) {
     SiteSize.compact => 720,
-    SiteSize.medium => 1040,
+    SiteSize.medium => 980,
     SiteSize.expanded => 1180,
   };
 }

@@ -32,7 +32,7 @@ class SectionShell extends StatelessWidget {
         child: Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: context.siteMax),
-            child: child,
+            child: SizedBox(width: double.infinity, child: child),
           ),
         ),
       ),
@@ -48,29 +48,33 @@ class SectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          index,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: AppColors.accent,
-            letterSpacing: 1.4,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Container(width: 22, height: 1, color: AppColors.accentSoft.withValues(alpha: 0.7)),
-        const SizedBox(width: 12),
-        Flexible(
-          child: Text(
-            title.toUpperCase(),
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: AppColors.muted,
-            letterSpacing: 1.6,
-            fontSize: 12,
-            ),
-          ),
-        ),
-      ],
+    return Text(
+      '$index  ${title.toUpperCase()}',
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        color: context.colors.muted,
+        letterSpacing: 1.6,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+}
+
+class CardLabel extends StatelessWidget {
+  const CardLabel(this.title, {super.key});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title.toUpperCase(),
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        color: context.colors.muted,
+        letterSpacing: 1.5,
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 }
@@ -89,27 +93,34 @@ class IosButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final style = filled
         ? FilledButton.styleFrom(
-            backgroundColor: AppColors.accentSoft,
-            foregroundColor: AppColors.ink,
+            backgroundColor: colors.ink,
+            foregroundColor: colors.onInk,
             elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(999),
             ),
           )
         : OutlinedButton.styleFrom(
-            foregroundColor: AppColors.text,
-            side: const BorderSide(color: AppColors.border),
-            backgroundColor: AppColors.glass,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+            foregroundColor: colors.text,
+            side: BorderSide(color: colors.border),
+            backgroundColor: colors.bgElevated,
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(999),
             ),
           );
 
-    final child = Text(label);
+    final child = Text(
+      label,
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        color: filled ? colors.onInk : colors.text,
+        fontWeight: FontWeight.w600,
+      ),
+    );
 
     return filled
         ? FilledButton(onPressed: onPressed, style: style, child: child)

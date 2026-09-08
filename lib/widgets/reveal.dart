@@ -8,18 +8,29 @@ class Reveal extends StatefulWidget {
     super.key,
     required this.child,
     this.delay = Duration.zero,
+    this.immediate = false,
   });
 
   final Widget child;
   final Duration delay;
+  final bool immediate;
 
   @override
   State<Reveal> createState() => _RevealState();
 }
 
 class _RevealState extends State<Reveal> {
-  bool _shown = false;
+  late bool _shown = widget.immediate;
   Timer? _pending;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _shown) return;
+      _reveal();
+    });
+  }
 
   @override
   void dispose() {
@@ -47,10 +58,15 @@ class _RevealState extends State<Reveal> {
         if (info.visibleFraction >= 0.08) _reveal();
       },
       child: AnimatedOpacity(
-        opacity: _shown ? 1 : 0.04,
-        duration: const Duration(milliseconds: 320),
-        curve: Curves.easeOut,
-        child: widget.child,
+        opacity: _shown ? 1 : 0,
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeOutCubic,
+        child: AnimatedSlide(
+          offset: _shown ? Offset.zero : const Offset(0, 0.06),
+          duration: const Duration(milliseconds: 420),
+          curve: Curves.easeOutCubic,
+          child: widget.child,
+        ),
       ),
     );
   }

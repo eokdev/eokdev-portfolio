@@ -53,23 +53,24 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final child = Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.glassHeavy,
+        color: colors.bgElevated,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 15, color: AppColors.accentSoft),
+          Icon(icon, size: 15, color: colors.accent),
           const SizedBox(width: 6),
           Text(
             label,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               fontSize: 12,
-              color: AppColors.text,
+              color: colors.text,
             ),
           ),
         ],

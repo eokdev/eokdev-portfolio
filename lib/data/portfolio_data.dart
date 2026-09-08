@@ -105,6 +105,18 @@ class Education {
   final String place;
 }
 
+class WorkStep {
+  const WorkStep({
+    required this.index,
+    required this.title,
+    required this.body,
+  });
+
+  final String index;
+  final String title;
+  final String body;
+}
+
 abstract final class PortfolioData {
   static const profile = Profile(
     firstName: 'Emmanuel',
@@ -546,6 +558,29 @@ abstract final class PortfolioData {
     ),
   ];
 
+  static List<String> get selectedAppCovers {
+    String? coverFor(String name) {
+      for (final project in projects) {
+        if (project.name == name && project.screenshots.isNotEmpty) {
+          return project.screenshots.first;
+        }
+      }
+      return null;
+    }
+
+    final dream = coverFor('Dream Planet');
+    final nexodius = coverFor('Nexodius');
+    return [
+      for (final project in projects)
+        if (project.screenshots.isNotEmpty &&
+            project.name != 'Dream Planet' &&
+            project.name != 'Nexodius')
+          project.screenshots.first,
+      if (nexodius != null) nexodius,
+      if (dream != null) dream,
+    ];
+  }
+
   static List<String> get playPackageIds {
     final ids = <String>[];
     for (final project in projects) {
@@ -563,4 +598,37 @@ abstract final class PortfolioData {
     period: 'Sep 2019 - Aug 2023',
     place: 'Ikeji-Arakeji, Osun State',
   );
+
+  static const workSteps = [
+    WorkStep(
+      index: '01',
+      title: 'Requirements',
+      body:
+          'We agree on the product, the users, and what v1 has to do. I want the constraints and the existing systems before I estimate.',
+    ),
+    WorkStep(
+      index: '02',
+      title: 'Architecture',
+      body:
+          'I plan the app structure, navigation, state, and how the client talks to the backend. The stack follows the product, not a fixed template.',
+    ),
+    WorkStep(
+      index: '03',
+      title: 'Development',
+      body:
+          'I build the Flutter app for Android and iOS. Clean UI, solid integrations, and a build that feels right in the hand.',
+    ),
+    WorkStep(
+      index: '04',
+      title: 'Release',
+      body:
+          'I take it through internal builds, store listings, and a production rollout on the Play Store and App Store.',
+    ),
+    WorkStep(
+      index: '05',
+      title: 'Support',
+      body:
+          'I stay on the live app. Fixes, store updates, and the next features. A shipped release still needs an owner.',
+    ),
+  ];
 }

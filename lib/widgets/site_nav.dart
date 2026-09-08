@@ -1,14 +1,12 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../data/portfolio_data.dart';
 import '../theme/app_colors.dart';
 import '../theme/layout.dart';
+import '../theme/theme_controller.dart';
 import '../utils/launchers.dart';
 import 'cached_asset_image.dart';
-import 'glass.dart';
 import 'section_shell.dart';
 
 class NavItem {
@@ -42,52 +40,60 @@ class SiteNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final compact = context.isCompact;
-
-    return SafeArea(
-      bottom: false,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(context.sitePad, 10, context.sitePad, 8),
-        child: Glass(
-          radius: 22,
-          frosted: true,
-          blur: elevated || menuOpen ? 28 : 18,
-          tint: elevated || menuOpen ? AppColors.glassHeavy : AppColors.glass,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Row(
-              children: [
-                _Logo(onTap: () => onNavigate('hero')),
-                const Spacer(),
-                if (!compact)
-                  Row(
-                    children: [
-                      for (final item in navItems)
-                        _NavLink(
-                          label: item.label,
-                          onTap: () => onNavigate(item.section),
-                        ),
-                      const SizedBox(width: 8),
-                      IosButton(
-                        label: 'Resume',
-                        onPressed: openResume,
-                      ),
-                    ],
-                  )
-                else
-                  IconButton(
-                    onPressed: onToggleMenu,
-                    tooltip: '',
-                    icon: Icon(
-                      menuOpen ? CupertinoIcons.xmark : CupertinoIcons.bars,
-                      color: AppColors.text,
-                      size: 22,
-                      semanticLabel: menuOpen ? 'Close menu' : 'Open menu',
-                    ),
-                  ),
-              ],
-            ),
+    final colors = context.colors;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 220),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: colors.bg.withValues(alpha: elevated || menuOpen ? 0.96 : 1),
+        border: Border(
+          bottom: BorderSide(
+            color: elevated ? colors.border : Colors.transparent,
           ),
+        ),
+      ),
+      child: SafeArea(
+        left: false,
+        right: false,
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(context.sitePad, 10, context.sitePad, 10),
+          child: Row(
+          children: [
+            InkWell(
+              onTap: () => onNavigate('hero'),
+              borderRadius: BorderRadius.circular(20),
+              child: const ClipOval(
+                child: CachedAssetImage(
+                  'assets/images/hero.jpg',
+                  width: 36,
+                  height: 36,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Flexible(
+              child: InkWell(
+                onTap: () => openMail(PortfolioData.profile.email),
+                borderRadius: BorderRadius.circular(8),
+                child: Text(
+                  PortfolioData.profile.email,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colors.text,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(),
+            const _ThemeButton(),
+            const SizedBox(width: 8),
+            _MenuButton(open: menuOpen, onTap: onToggleMenu),
+          ],
+        ),
         ),
       ),
     );
@@ -101,45 +107,46 @@ class MobileMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 36, sigmaY: 36),
-        child: ColoredBox(
-          color: const Color(0xCC07101C),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 72),
-                  for (final item in navItems)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: TextButton(
-                        onPressed: () => onNavigate(item.section),
-                        style: TextButton.styleFrom(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        child: Text(
-                          item.label,
-                          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                            fontSize: 34,
-                          ),
-                        ),
+    return ColoredBox(
+      color: context.colors.bg,
+      child: SafeArea(
+        left: false,
+        right: false,
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(context.sitePad, 12, context.sitePad, 36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 24),
+              for (final item in navItems)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: TextButton(
+                    onPressed: () => onNavigate(item.section),
+                    style: TextButton.styleFrom(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Text(
+                      item.label,
+                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        fontSize: 40,
+                        letterSpacing: -1.2,
                       ),
                     ),
-                  const SizedBox(height: 20),
-                  IosButton(label: 'Download resume', onPressed: openResume),
-                  const Spacer(),
-                  Text(
-                    PortfolioData.profile.email,
-                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                ],
+                ),
+              const SizedBox(height: 20),
+              IosButton(label: 'Download resume', onPressed: openResume),
+              const Spacer(),
+              Text(
+                PortfolioData.profile.email,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -147,54 +154,55 @@ class MobileMenu extends StatelessWidget {
   }
 }
 
-class _Logo extends StatelessWidget {
-  const _Logo({required this.onTap});
-
-  final VoidCallback onTap;
+class _ThemeButton extends StatelessWidget {
+  const _ThemeButton();
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(11),
-            child: const CachedAssetImage(
-              'assets/images/hero.jpg',
-              width: 34,
-              height: 34,
-              alignment: Alignment.center,
-            ),
+    final colors = context.colors;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    return Material(
+      color: colors.bgElevated,
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () => ThemeControllerScope.of(context).toggle(context),
+        child: SizedBox.square(
+          dimension: 46,
+          child: Icon(
+            dark ? CupertinoIcons.sun_max : CupertinoIcons.moon,
+            size: 18,
+            color: colors.ink,
+            semanticLabel: dark ? 'Use light mode' : 'Use dark mode',
           ),
-          const SizedBox(width: 10),
-          Text(
-            'eokdev',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class _NavLink extends StatelessWidget {
-  const _NavLink({required this.label, required this.onTap});
+class _MenuButton extends StatelessWidget {
+  const _MenuButton({required this.open, required this.onTap});
 
-  final String label;
+  final bool open;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: TextButton(
-        onPressed: onTap,
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: AppColors.muted,
+    final colors = context.colors;
+    return Material(
+      color: colors.bgElevated,
+      shape: const CircleBorder(),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onTap,
+        child: SizedBox.square(
+          dimension: 46,
+          child: Icon(
+            open ? CupertinoIcons.xmark : CupertinoIcons.bars,
+            size: 20,
+            color: colors.ink,
+            semanticLabel: open ? 'Close menu' : 'Open menu',
           ),
         ),
       ),

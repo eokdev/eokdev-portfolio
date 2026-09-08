@@ -24,8 +24,7 @@ class ContactSection extends StatelessWidget {
       child: Reveal(
         child: Glass(
           radius: 32,
-          blur: 28,
-          tint: AppColors.glassHeavy,
+          tint: context.colors.surfaceHigh,
           padding: EdgeInsets.all(compact ? 24 : 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +43,7 @@ class ContactSection extends StatelessWidget {
                 child: Text(
                   'I am open to Flutter roles, contract work, and products that need a mobile engineer who has already shipped at scale.',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.muted,
+                    color: context.colors.muted,
                   ),
                 ),
               ),
@@ -109,9 +108,12 @@ class ContactSection extends StatelessWidget {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Copied $value'),
+        content: Text(
+          'Copied $value',
+          style: TextStyle(color: context.colors.onInk),
+        ),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: const Color(0xEE0C1830),
+        backgroundColor: context.colors.ink,
       ),
     );
   }
@@ -146,7 +148,7 @@ class _ContactLine extends StatelessWidget {
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontSize: 11,
                 letterSpacing: 1.4,
-                color: AppColors.accentSoft,
+                color: context.colors.muted,
               ),
             ),
             const SizedBox(height: 4),
@@ -154,7 +156,7 @@ class _ContactLine extends StatelessWidget {
               value,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 decoration: TextDecoration.underline,
-                decorationColor: AppColors.border,
+                decorationColor: context.colors.border,
               ),
             ),
           ],

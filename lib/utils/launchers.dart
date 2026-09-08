@@ -1,5 +1,7 @@
 import 'package:url_launcher/url_launcher.dart';
 
+import 'analytics.dart';
+
 final _emailPattern = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
 bool isSafeWebUrl(String url) {
@@ -23,11 +25,13 @@ String? safeTelHref(String phone) {
 
 Future<void> openUrl(String url) async {
   if (!isSafeWebUrl(url)) return;
+  trackEvent('outbound_click', {'url': url});
   await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
 }
 
 Future<void> openMail(String email, {String? subject}) async {
   if (!isSafeEmail(email)) return;
+  trackEvent('email', {'subject': subject});
   final uri = Uri(
     scheme: 'mailto',
     path: email,
@@ -39,10 +43,12 @@ Future<void> openMail(String email, {String? subject}) async {
 Future<void> openTel(String phone) async {
   final href = safeTelHref(phone);
   if (href == null) return;
+  trackEvent('phone');
   await launchUrl(Uri.parse(href));
 }
 
 Future<void> openResume() async {
+  trackEvent('resume');
   await launchUrl(
     Uri.parse('assets/assets/docs/emmanuel_resume.pdf'),
     webOnlyWindowName: '_blank',

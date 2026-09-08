@@ -15,6 +15,9 @@ void main() {
     expect(html, contains("frame-src 'none'"));
     expect(html, contains("object-src 'none'"));
     expect(html, contains('https://www.gstatic.com'));
+    expect(html, contains('https://triangle-analytics.vercel.app'));
+    expect(html, contains('data-site-id="tri_930129"'));
+    expect(html, contains('tracker.js'));
     expect(html, contains('viewport-fit=cover'));
     expect(html, contains('id="app-loader"'));
     expect(html, contains('id="flutter-host"'));
@@ -37,5 +40,6 @@ void main() {
     }
     expect(headers, contains('X-Frame-Options: DENY'));
     expect(headers, contains('max-age=31536000'));
+    expect(headers, contains('https://triangle-analytics.vercel.app'));
   });
 }

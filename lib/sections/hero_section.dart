@@ -1,15 +1,14 @@
-import 'dart:async';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../data/portfolio_data.dart';
 import '../theme/app_colors.dart';
 import '../theme/layout.dart';
-import '../utils/play_downloads.dart';
+import '../utils/launchers.dart';
 import '../widgets/cached_asset_image.dart';
-import '../widgets/glass.dart';
 import '../widgets/reveal.dart';
 import '../widgets/section_shell.dart';
+import 'bento_section.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({
@@ -26,251 +25,260 @@ class HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final compact = context.isCompact;
-    final nameSize = compact ? 52.0 : (context.isMedium ? 76.0 : 96.0);
+    final width = MediaQuery.sizeOf(context).width;
+    final nameSize = switch (context.siteSize) {
+      SiteSize.compact => width < 380 ? 28.0 : 34.0,
+      SiteSize.medium => 46.0,
+      SiteSize.expanded => 62.0,
+    };
+    final lineSize = compact ? (width < 380 ? 22.0 : 26.0) : (context.isMedium ? 32.0 : 40.0);
     final profile = PortfolioData.profile;
-
-    final copy = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${profile.title.toUpperCase()}  ·  ${profile.location.toUpperCase()}',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: AppColors.accent,
-            letterSpacing: 2.4,
-            fontSize: 12,
-          ),
-        ),
-        const SizedBox(height: 22),
-        FittedBox(
-          alignment: Alignment.centerLeft,
-          fit: BoxFit.scaleDown,
-          child: Text(
-            profile.firstName,
-            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-              fontSize: nameSize,
-            ),
-          ),
-        ),
-        FittedBox(
-          alignment: Alignment.centerLeft,
-          fit: BoxFit.scaleDown,
-          child: Text(
-            profile.lastName,
-            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-              fontSize: nameSize,
-              color: AppColors.accentSoft,
-            ),
-          ),
-        ),
-        const SizedBox(height: 28),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 640),
-          child: Text(
-            'I design and ship production Flutter apps for Android and iOS. Marketplaces, ecommerce, fintech, health, social, operations, or whatever the brief is. If it is buildable, I will build it.',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontSize: compact ? 17 : 20,
-              color: AppColors.muted,
-            ),
-          ),
-        ),
-        const SizedBox(height: 32),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: [
-            IosButton(label: 'See selected work', onPressed: onViewWork),
-            IosButton(
-              label: 'Get in touch',
-              filled: false,
-              onPressed: onContact,
-            ),
-          ],
-        ),
-      ],
-    );
+    final avatarSize = compact ? 36.0 : 52.0;
 
     return SectionShell(
       idKey: idKey,
-      top: compact ? 28 : 48,
+      top: compact ? 20 : 36,
       bottom: 8,
-      child: Reveal(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (compact) ...[
-              const _HeroPortrait(maxWidth: 220),
-              const SizedBox(height: 28),
-              copy,
-            ] else
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(flex: 6, child: copy),
-                  const SizedBox(width: 40),
-                  const Expanded(flex: 4, child: _HeroPortrait()),
-                ],
-              ),
-            const SizedBox(height: 56),
-            _StatsRow(compact: compact),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _HeroPortrait extends StatelessWidget {
-  const _HeroPortrait({this.maxWidth});
-
-  final double? maxWidth;
-
-  @override
-  Widget build(BuildContext context) {
-    final frame = Glass(
-      radius: 28,
-      padding: const EdgeInsets.all(3),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: AspectRatio(
-          aspectRatio: 4 / 5,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return CachedAssetImage(
-                'assets/images/avatar.jpg',
-                width: constraints.maxWidth,
-                height: constraints.maxHeight,
-                alignment: const Alignment(-0.2, -0.12),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-
-    if (maxWidth == null) return frame;
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth!),
-        child: frame,
-      ),
-    );
-  }
-}
-
-class _StatsRow extends StatefulWidget {
-  const _StatsRow({required this.compact});
-
-  final bool compact;
-
-  @override
-  State<_StatsRow> createState() => _StatsRowState();
-}
-
-class _StatsRowState extends State<_StatsRow> {
-  late final List<Stat> _stats;
-  Timer? _refresh;
-
-  @override
-  void initState() {
-    super.initState();
-    _stats = List<Stat>.from(PortfolioData.stats);
-    if (skipLiveDownloads) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future<void>.delayed(const Duration(seconds: 2), () {
-        if (!mounted) return;
-        _refreshDownloads();
-        _refresh = Timer.periodic(const Duration(minutes: 10), (_) {
-          _refreshDownloads();
-        });
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _refresh?.cancel();
-    super.dispose();
-  }
-
-  Future<void> _refreshDownloads() async {
-    try {
-      final total = await fetchPortfolioDownloads();
-      if (!mounted) return;
-      final formatted = formatDownloadTotal(total);
-      setState(() {
-        for (var i = 0; i < _stats.length; i++) {
-          if (_stats[i].liveDownloads) {
-            _stats[i] = Stat(
-              value: formatted,
-              label: _stats[i].label,
-              liveDownloads: true,
-            );
-          }
-        }
-      });
-    } catch (_) {
-      // Keep the last known total on screen.
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final stats = _stats;
-    if (widget.compact) {
-      return Glass(
-        radius: 22,
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-        child: Column(
-          children: [
-            for (var i = 0; i < stats.length; i += 2)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Reveal(
+            immediate: true,
+            child: Column(
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Hi, I'm ",
+                          style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                            fontSize: nameSize,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: ClipOval(
+                              child: CachedAssetImage(
+                                'assets/images/avatar.jpg',
+                                width: avatarSize,
+                                height: avatarSize,
+                                alignment: const Alignment(-0.2, -0.12),
+                              ),
+                            ),
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' ${profile.fullName}!',
+                          style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                            fontSize: nameSize,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Column(
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "I'm a ",
+                              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                fontSize: lineSize,
+                                fontWeight: FontWeight.w500,
+                                color: context.colors.muted,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Flutter Engineer',
+                              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                fontSize: lineSize,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ' in',
+                              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                fontSize: lineSize,
+                                fontWeight: FontWeight.w500,
+                                color: context.colors.muted,
+                              ),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        'Abuja, Nigeria.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                          fontSize: lineSize,
+                          fontWeight: FontWeight.w700,
+                          color: context.colors.accent,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const _OpenBadge(),
+                const SizedBox(height: 28),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 22,
+                  runSpacing: 16,
                   children: [
-                    Expanded(child: _StatCell(stat: stats[i])),
-                    if (i + 1 < stats.length)
-                      Expanded(child: _StatCell(stat: stats[i + 1])),
+                    _GetInTouchButton(
+                      onPressed: () {
+                        onContact();
+                        openMail(profile.email, subject: 'Get in touch');
+                      },
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 280),
+                      child: Text(
+                        'Feel free to explore the work and reach out. I would love to connect!',
+                        textAlign: compact ? TextAlign.center : TextAlign.start,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-          ],
-        ),
-      );
-    }
-
-    return Glass(
-      radius: 22,
-      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
-      child: Row(
-        children: [
-          for (final stat in stats)
-            Expanded(child: _StatCell(stat: stat)),
+              ],
+            ),
+          ),
+          SizedBox(height: compact ? 36 : 48),
+          BentoSection(onViewWork: onViewWork),
         ],
       ),
     );
   }
 }
 
-class _StatCell extends StatelessWidget {
-  const _StatCell({required this.stat});
+class _GetInTouchButton extends StatefulWidget {
+  const _GetInTouchButton({required this.onPressed});
 
-  final Stat stat;
+  final VoidCallback onPressed;
+
+  @override
+  State<_GetInTouchButton> createState() => _GetInTouchButtonState();
+}
+
+class _GetInTouchButtonState extends State<_GetInTouchButton> {
+  bool _hover = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          stat.value,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: AppColors.accent,
+    final colors = context.colors;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.onPressed,
+        child: AnimatedScale(
+          scale: _hover ? 1.04 : 1,
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+            padding: const EdgeInsets.fromLTRB(26, 15, 22, 15),
+            decoration: BoxDecoration(
+              color: _hover ? colors.accent : colors.ink,
+              borderRadius: BorderRadius.circular(999),
+              boxShadow: _hover
+                  ? [
+                      BoxShadow(
+                        color: colors.accent.withValues(alpha: 0.28),
+                        blurRadius: 18,
+                        offset: const Offset(0, 8),
+                      ),
+                    ]
+                  : const [],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Get in touch',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: _hover ? Colors.white : colors.onInk,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.1,
+                    height: 1,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                AnimatedSlide(
+                  offset: _hover ? const Offset(0.12, -0.12) : Offset.zero,
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOutCubic,
+                  child: Icon(
+                    CupertinoIcons.arrow_up_right,
+                    size: 14,
+                    color: _hover ? Colors.white : colors.onInk,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(stat.label, style: Theme.of(context).textTheme.bodyMedium),
-      ],
+      ),
+    );
+  }
+}
+
+class _OpenBadge extends StatelessWidget {
+  const _OpenBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      decoration: BoxDecoration(
+        color: colors.sage,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              color: colors.live,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'Open to work.',
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: colors.text,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
