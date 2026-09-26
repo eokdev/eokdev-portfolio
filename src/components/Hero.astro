@@ -187,12 +187,11 @@ const {
   .hero-canvas {
     width: 100%;
     max-width: 100%;
-    padding: clamp(1.75rem, 3.5vw, 3rem) clamp(1.5rem, 4.5vw, 4rem)
-      clamp(2.5rem, 5vw, 4.5rem);
+    padding: clamp(1.5rem, 3vw, 2.75rem) clamp(1.25rem, 4vw, 3.5rem) clamp(2rem, 4.5vw, 3.75rem);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    min-height: clamp(380px, 48vh, 520px);
+    min-height: auto;
     justify-content: space-between;
   }
 
@@ -202,10 +201,12 @@ const {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: clamp(0.82rem, 1.1vw, 0.95rem);
+    gap: 1rem;
+    font-size: clamp(0.8rem, 1vw, 0.92rem);
     font-weight: 500;
     letter-spacing: -0.01em;
     color: #111111;
+    flex-wrap: wrap;
   }
 
   .brand-name {
@@ -216,11 +217,12 @@ const {
     text-decoration: none;
     font-weight: 600;
     transition: opacity 0.2s ease;
+    flex-shrink: 0;
   }
 
   .brand-logo {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     display: block;
   }
 
@@ -231,8 +233,10 @@ const {
   .top-nav {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     font-weight: 400;
     color: #222222;
+    gap: 0.15rem 0.35rem;
   }
 
   .nav-entry {
@@ -252,18 +256,18 @@ const {
   }
 
   .nav-comma {
-    margin-right: 0.35rem;
-    color: #666666;
+    margin-right: 0.2rem;
+    color: #888888;
   }
 
   /* Hero Body Layout */
   .hero-body {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1.25fr;
+    grid-template-columns: minmax(100px, 1fr) minmax(280px, 1.35fr);
     align-items: flex-end;
-    gap: 2rem;
-    margin-top: clamp(3rem, 7vh, 6rem);
+    gap: clamp(1.5rem, 3vw, 3rem);
+    margin-top: clamp(2.5rem, 6vh, 5rem);
   }
 
   /* Bottom Left Label */
@@ -274,7 +278,7 @@ const {
   }
 
   .welcome-label {
-    font-size: clamp(0.82rem, 1vw, 0.92rem);
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
     font-weight: 500;
     color: #111111;
     letter-spacing: -0.01em;
@@ -284,29 +288,32 @@ const {
   .headline-col {
     display: flex;
     flex-direction: column;
-    gap: clamp(1.25rem, 2.5vh, 2rem);
+    gap: clamp(1rem, 2vh, 1.75rem);
+    width: 100%;
+    max-width: 100%;
   }
 
   .display-title {
     margin: 0;
-    font-size: clamp(2.4rem, 5.2vw, 4.8rem);
+    font-size: clamp(2.1rem, 4.4vw, 4.4rem);
     font-weight: 600;
-    line-height: 1.05;
+    line-height: 1.06;
     letter-spacing: -0.035em;
     color: #111111;
     display: flex;
     flex-direction: column;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .title-line {
     display: block;
-    white-space: nowrap;
   }
 
   .display-description {
     margin: 0;
-    max-width: 520px;
-    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    max-width: 540px;
+    font-size: clamp(0.85rem, 1.05vw, 0.98rem);
     font-weight: 400;
     line-height: 1.55;
     letter-spacing: -0.01em;
@@ -317,7 +324,7 @@ const {
   .hero-banner-container {
     width: 100%;
     max-width: 100%;
-    height: clamp(340px, 48vh, 620px);
+    height: clamp(280px, 46vh, 580px);
     overflow: hidden;
     background-color: #1a1a1a;
   }
@@ -331,16 +338,15 @@ const {
   }
 
   /* Responsive Breakpoints */
-  @media (max-width: 900px) {
+  @media (max-width: 960px) {
     .hero-canvas {
-      padding: 1.75rem 1.5rem 2rem;
-      min-height: auto;
+      padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) clamp(1.75rem, 4vw, 2.5rem);
     }
 
     .hero-body {
       grid-template-columns: 1fr;
-      gap: 2.5rem;
-      margin-top: 3rem;
+      gap: 2rem;
+      margin-top: clamp(2rem, 4vh, 3.5rem);
     }
 
     .welcome-col {
@@ -352,32 +358,64 @@ const {
     }
 
     .display-title {
-      font-size: clamp(2rem, 8vw, 3.4rem);
-    }
-
-    .title-line {
-      white-space: normal;
+      font-size: clamp(2.2rem, 6.5vw, 3.6rem);
     }
 
     .hero-banner-container {
-      height: clamp(260px, 40vh, 420px);
+      height: clamp(240px, 38vh, 420px);
     }
   }
 
-  @media (max-width: 540px) {
+  @media (max-width: 600px) {
     .hero-topbar {
-      flex-direction: column;
-      align-items: flex-start;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
       gap: 0.75rem;
     }
 
+    .brand-name {
+      font-size: 0.88rem;
+    }
+
+    .brand-logo {
+      width: 18px;
+      height: 18px;
+    }
+
+    .top-nav {
+      font-size: 0.8rem;
+    }
+
+    .hero-body {
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
     .display-title {
-      font-size: clamp(1.85rem, 9vw, 2.6rem);
+      font-size: clamp(1.85rem, 8.2vw, 2.5rem);
       line-height: 1.1;
     }
 
     .display-description {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .welcome-label {
+      font-size: 0.82rem;
+    }
+
+    .hero-banner-container {
+      height: clamp(200px, 32vh, 300px);
+    }
+  }
+
+  @media (max-width: 380px) {
+    .hero-topbar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
     }
   }
 </style>
