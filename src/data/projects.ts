@@ -139,10 +139,11 @@ export const projectsData: ProjectItem[] = [
     year: '2023',
     blurb: 'On-demand courier delivery and logistics coordination platform with live rider route tracking and instant settlement.',
     tags: ['Flutter', 'Routing', 'WebSockets', 'Android', 'iOS'],
-    image: '/images/apps/blinkers/play_01.webp',
+    image: '/images/apps/blinkers/ios_01.jpg',
     gallery: [
-      '/images/apps/blinkers/play_01.webp',
-      '/images/apps/blinkers/play_02.webp',
+      '/images/apps/blinkers/ios_01.jpg',
+      '/images/apps/blinkers/ios_02.jpg',
+      '/images/apps/blinkers/ios_03.jpg',
     ],
   },
   {
