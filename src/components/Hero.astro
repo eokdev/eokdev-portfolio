@@ -14,16 +14,16 @@ interface Props {
 }
 
 const {
-  name = 'Emmanuel Olorunshola',
-  role = 'Flutter Engineer',
-  welcomeText = 'Welcome:',
-  description = 'Blending precision with scale, mobile applications are crafted to deliver seamless performance while solving critical real-world problems with enduring reliability.',
-  bannerImage = '/images/hero-banner.jpg',
+  name = "Emmanuel Olorunshola",
+  role = "Flutter Engineer",
+  welcomeText = "Welcome:",
+  description = "Blending precision with scale, mobile applications are crafted to deliver seamless performance while solving critical real-world problems with enduring reliability.",
+  bannerImage = "/images/hero-banner.jpg",
   navLinks = [
-    { label: 'Work', href: '#work' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: "Work", href: "#work" },
+    { label: "Experience", href: "#experience" },
+    { label: "About", href: "#about" },
+    { label: "Contact", href: "#contact" },
   ],
 } = Astro.props;
 ---
@@ -33,14 +33,21 @@ const {
   <div class="hero-canvas">
     <!-- Top Editorial Header Bar -->
     <div class="hero-topbar" data-hero-topbar>
-      <a href="#hero" class="brand-name">{name}</a>
+      <a href="#hero" class="brand-name">
+        <img src="/images/logo-dark.svg" alt="EOK Logo" class="brand-logo" />
+        <span>{name}</span>
+      </a>
       <nav class="top-nav" aria-label="Quick links">
-        {navLinks.map((link, idx) => (
-          <span class="nav-entry">
-            <a href={link.href} class="nav-text-link">{link.label}</a>
-            {idx < navLinks.length - 1 && <span class="nav-comma">, </span>}
-          </span>
-        ))}
+        {
+          navLinks.map((link, idx) => (
+            <span class="nav-entry">
+              <a href={link.href} class="nav-text-link">
+                {link.label}
+              </a>
+              {idx < navLinks.length - 1 && <span class="nav-comma">, </span>}
+            </span>
+          ))
+        }
       </nav>
     </div>
 
@@ -66,9 +73,9 @@ const {
 
   <!-- Full-Width Architectural / Structural Image Banner -->
   <div class="hero-banner-container" data-hero-banner>
-    <img 
-      src={bannerImage} 
-      alt="Emmanuel Olorunshola - Architectural Minimalist Space" 
+    <img
+      src={bannerImage}
+      alt="Emmanuel Olorunshola - Architectural Minimalist Space"
       class="hero-banner-img"
       loading="eager"
       decoding="async"
@@ -77,25 +84,29 @@ const {
 </header>
 
 <script>
-  import gsap from 'gsap';
+  import gsap from "gsap";
 
   function initHeroAnimation() {
-    const topbar = document.querySelector<HTMLElement>('[data-hero-topbar]');
-    const welcome = document.querySelector<HTMLElement>('[data-hero-welcome]');
-    const titleLines = document.querySelectorAll<HTMLElement>('[data-hero-headline] .title-line');
-    const description = document.querySelector<HTMLElement>('[data-hero-headline] .display-description');
-    const banner = document.querySelector<HTMLElement>('[data-hero-banner]');
+    const topbar = document.querySelector<HTMLElement>("[data-hero-topbar]");
+    const welcome = document.querySelector<HTMLElement>("[data-hero-welcome]");
+    const titleLines = document.querySelectorAll<HTMLElement>(
+      "[data-hero-headline] .title-line",
+    );
+    const description = document.querySelector<HTMLElement>(
+      "[data-hero-headline] .display-description",
+    );
+    const banner = document.querySelector<HTMLElement>("[data-hero-banner]");
 
     if (!titleLines.length) return;
 
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
     // Topbar & Welcome subtle entrance
     if (topbar) {
       tl.fromTo(
         topbar,
         { opacity: 0, y: -15 },
-        { opacity: 1, y: 0, duration: 0.8, clearProps: 'transform' }
+        { opacity: 1, y: 0, duration: 0.8, clearProps: "transform" },
       );
     }
 
@@ -103,8 +114,14 @@ const {
     tl.fromTo(
       titleLines,
       { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 1.0, stagger: 0.12, clearProps: 'transform' },
-      '-=0.5'
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.0,
+        stagger: 0.12,
+        clearProps: "transform",
+      },
+      "-=0.5",
     );
 
     // Description entrance
@@ -112,8 +129,8 @@ const {
       tl.fromTo(
         description,
         { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.9, clearProps: 'transform' },
-        '-=0.6'
+        { opacity: 1, y: 0, duration: 0.9, clearProps: "transform" },
+        "-=0.6",
       );
     }
 
@@ -122,8 +139,8 @@ const {
       tl.fromTo(
         welcome,
         { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.8, clearProps: 'transform' },
-        '-=0.7'
+        { opacity: 1, y: 0, duration: 0.8, clearProps: "transform" },
+        "-=0.7",
       );
     }
 
@@ -132,18 +149,24 @@ const {
       tl.fromTo(
         banner,
         { opacity: 0, scale: 0.98 },
-        { opacity: 1, scale: 1, duration: 1.2, ease: 'power2.out', clearProps: 'transform' },
-        '-=0.8'
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          ease: "power2.out",
+          clearProps: "transform",
+        },
+        "-=0.8",
       );
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroAnimation);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeroAnimation);
   } else {
     initHeroAnimation();
   }
-  document.addEventListener('astro:page-load', initHeroAnimation);
+  document.addEventListener("astro:page-load", initHeroAnimation);
 </script>
 
 <style>
@@ -153,7 +176,8 @@ const {
     min-width: 100%;
     background-color: #ffffff;
     color: #111111;
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -163,7 +187,8 @@ const {
   .hero-canvas {
     width: 100%;
     max-width: 100%;
-    padding: clamp(1.75rem, 3.5vw, 3rem) clamp(1.5rem, 4.5vw, 4rem) clamp(2.5rem, 5vw, 4.5rem);
+    padding: clamp(1.75rem, 3.5vw, 3rem) clamp(1.5rem, 4.5vw, 4rem)
+      clamp(2.5rem, 5vw, 4.5rem);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -184,10 +209,19 @@ const {
   }
 
   .brand-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
     color: #111111;
     text-decoration: none;
     font-weight: 600;
     transition: opacity 0.2s ease;
+  }
+
+  .brand-logo {
+    width: 22px;
+    height: 22px;
+    display: block;
   }
 
   .brand-name:hover {
