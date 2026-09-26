@@ -11,7 +11,7 @@ export interface RoleItem {
 export const rolesData: RoleItem[] = [
   {
     id: 'tractrac',
-    company: 'Tractrac Mechanisation Services',
+    company: 'Tractrac Mechanisation Services Limited',
     title: 'Flutter Developer',
     period: 'Apr 2025 to Present',
     location: 'Hybrid, Abuja',
