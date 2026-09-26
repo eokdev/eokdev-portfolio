@@ -17,8 +17,100 @@ import Contact from '../components/Contact.astro';
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content="Emmanuel Olorunshola - Lead Flutter Engineer & Mobile App Architect based in Abuja, Nigeria." />
-		<title>Emmanuel Olorunshola · Flutter Engineer</title>
+		<meta name="description" content="Emmanuel Olorunshola, Lead Flutter Engineer and Mobile App Architect based in Abuja, Nigeria." />
+		<title>Emmanuel Olorunshola, Flutter Engineer</title>
+
+		<!-- Sitelinks Schema Structured Data -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@graph": [
+				{
+					"@type": "WebSite",
+					"@id": "https://eokdev.netlify.app/#website",
+					"url": "https://eokdev.netlify.app",
+					"name": "Emmanuel Olorunshola",
+					"description": "Lead Flutter Engineer and Mobile App Architect based in Abuja Nigeria"
+				},
+				{
+					"@type": "SiteNavigationElement",
+					"@id": "https://eokdev.netlify.app/#navigation",
+					"name": [
+						"Work",
+						"Experience",
+						"Tools",
+						"Skills",
+						"About",
+						"Contact"
+					],
+					"url": [
+						"https://eokdev.netlify.app/#work",
+						"https://eokdev.netlify.app/#experience",
+						"https://eokdev.netlify.app/#tools",
+						"https://eokdev.netlify.app/#skills",
+						"https://eokdev.netlify.app/#about",
+						"https://eokdev.netlify.app/#contact"
+					]
+				},
+				{
+					"@type": "ItemList",
+					"itemListElement": [
+						{
+							"@type": "SiteNavigationElement",
+							"position": 1,
+							"name": "Work",
+							"description": "Production mobile applications built with Flutter and native platforms",
+							"url": "https://eokdev.netlify.app/#work"
+						},
+						{
+							"@type": "SiteNavigationElement",
+							"position": 2,
+							"name": "Experience",
+							"description": "Engineering leadership background and career timeline",
+							"url": "https://eokdev.netlify.app/#experience"
+						},
+						{
+							"@type": "SiteNavigationElement",
+							"position": 3,
+							"name": "Capabilities",
+							"description": "Mobile architecture state management and engineering capabilities",
+							"url": "https://eokdev.netlify.app/#skills"
+						},
+						{
+							"@type": "SiteNavigationElement",
+							"position": 4,
+							"name": "About",
+							"description": "Biography background and engineering philosophy",
+							"url": "https://eokdev.netlify.app/#about"
+						},
+						{
+							"@type": "SiteNavigationElement",
+							"position": 5,
+							"name": "Contact",
+							"description": "Direct communication channels email and professional profiles",
+							"url": "https://eokdev.netlify.app/#contact"
+						}
+					]
+				},
+				{
+					"@type": "Person",
+					"@id": "https://eokdev.netlify.app/#person",
+					"name": "Emmanuel Olorunshola",
+					"jobTitle": "Lead Flutter Engineer and Mobile Architect",
+					"url": "https://eokdev.netlify.app",
+					"sameAs": [
+						"https://github.com/eokdev",
+						"https://www.linkedin.com/in/emmanuel-olorunshola-965909232"
+					],
+					"address": {
+						"@type": "PostalAddress",
+						"addressLocality": "Abuja",
+						"addressCountry": "Nigeria"
+					}
+				}
+			]
+		}
+		</script>
 
 		<!-- Triangle Analytics -->
 		<script
