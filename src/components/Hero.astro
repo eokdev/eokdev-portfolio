@@ -27,10 +27,9 @@ const {
   theme = 'sage',
   customBackground,
   navItems = [
-    { label: 'Home', href: '#', active: true },
+    { label: 'Home', href: '#hero', active: true },
     { label: 'Work', href: '#work' },
     { label: 'Experience', href: '#experience' },
-    { label: 'Capabilities', href: '#capabilities' },
     { label: 'About', href: '#about' },
     { label: 'Contact', href: '#contact' },
   ],
@@ -50,15 +49,15 @@ const backgroundStyle = customBackground || gradients[theme] || gradients.sage;
 <header class="hero" id="hero" style={`background: ${backgroundStyle};`}>
   <!-- Center Typographic Group -->
   <div class="hero-center">
-    <h1 class="hero-title">
+    <h1 class="hero-title" data-hero-title>
       <span class="title-line">{titleLine1}</span>
       <span class="title-line">{titleLine2}</span>
     </h1>
-    <p class="hero-subtitle">{subtitle}</p>
+    <p class="hero-subtitle" data-hero-subtitle>{subtitle}</p>
   </div>
 
   <!-- Bottom Meta & Navigation Row -->
-  <div class="hero-bottom">
+  <div class="hero-bottom" data-hero-bottom>
     <div class="meta-left">
       <span class="meta-label">Last updated</span>
       <span class="meta-value">{lastUpdated}</span>
@@ -80,6 +79,54 @@ const backgroundStyle = customBackground || gradients[theme] || gradients.sage;
     </div>
   </div>
 </header>
+
+<script>
+  import gsap from 'gsap';
+
+  function initHeroAnimation() {
+    const titleLines = document.querySelectorAll<HTMLElement>('[data-hero-title] .title-line');
+    const subtitle = document.querySelector<HTMLElement>('[data-hero-subtitle]');
+    const bottom = document.querySelector<HTMLElement>('[data-hero-bottom]');
+
+    if (!titleLines.length) return;
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    // Title entrance
+    tl.fromTo(
+      titleLines,
+      { opacity: 0, y: 45 },
+      { opacity: 1, y: 0, duration: 1.1, stagger: 0.15, clearProps: 'transform' }
+    );
+
+    // Subtitle entrance
+    if (subtitle) {
+      tl.fromTo(
+        subtitle,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.9, clearProps: 'transform' },
+        '-=0.7'
+      );
+    }
+
+    // Bottom row entrance
+    if (bottom) {
+      tl.fromTo(
+        bottom,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, clearProps: 'transform' },
+        '-=0.6'
+      );
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroAnimation);
+  } else {
+    initHeroAnimation();
+  }
+  document.addEventListener('astro:page-load', initHeroAnimation);
+</script>
 
 <style>
   .hero {
@@ -127,6 +174,7 @@ const backgroundStyle = customBackground || gradients[theme] || gradients.sage;
 
   .title-line {
     display: block;
+    opacity: 0; /* GSAP will animate in */
   }
 
   .hero-subtitle {
@@ -139,6 +187,7 @@ const backgroundStyle = customBackground || gradients[theme] || gradients.sage;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
     padding: 0 0.5rem;
+    opacity: 0; /* GSAP will animate in */
   }
 
   /* Bottom Row */
@@ -152,6 +201,7 @@ const backgroundStyle = customBackground || gradients[theme] || gradients.sage;
     font-size: 0.75rem;
     letter-spacing: 0.02em;
     color: rgba(255, 255, 255, 0.85);
+    opacity: 0; /* GSAP will animate in */
   }
 
   .meta-left {
