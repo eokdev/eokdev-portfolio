@@ -132,8 +132,24 @@ export const projectsData: ProjectItem[] = [
     iosUrl: 'https://apps.apple.com/ng/app/atom-office/id6758051322',
   },
   {
-    id: 'blinkers',
+    id: 'autovendy-dealer',
     index: '08',
+    name: 'Autovendy Dealer',
+    category: 'Dealer tooling',
+    year: '2024',
+    blurb: 'Dealer app with a custom camera stack: 360-degree capture, panorama, wide-angle, and offline listings that sync when the lot gets signal.',
+    tags: ['Flutter', 'Camera', 'Platform channels', 'Offline', 'iOS'],
+    image: '/images/apps/autovendy_dealer/ios_01.webp',
+    gallery: [
+      '/images/apps/autovendy_dealer/ios_01.webp',
+      '/images/apps/autovendy_dealer/ios_02.webp',
+      '/images/apps/autovendy_dealer/ios_03.webp',
+    ],
+    iosUrl: 'https://apps.apple.com/us/app/autovendy-dealer-sell-cars/id6503721466',
+  },
+  {
+    id: 'blinkers',
+    index: '09',
     name: 'Blinkers Nigeria',
     category: 'Marketplace, Deep links',
     year: '2023',
@@ -150,7 +166,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: 'ikore-path',
-    index: '09',
+    index: '10',
     name: 'Ikore PATH',
     category: 'Field ops, Analytics',
     year: '2024',
@@ -165,7 +181,7 @@ export const projectsData: ProjectItem[] = [
   },
   {
     id: 'tradevila',
-    index: '10',
+    index: '11',
     name: 'TradeVila',
     category: 'Marketplace, Procurement',
     year: '2023',
