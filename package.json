@@ -1,5 +1,5 @@
 {
-  "name": "users-user-eokdev-portfolio",
+  "name": "eokdev-portfolio",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -12,7 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.3.5"
+    "@tabler/icons": "^3.48.0",
+    "@tabler/icons-astro": "^3.48.0",
+    "astro": "^7.3.5",
+    "gsap": "^3.15.0"
   },
   "allowScripts": {
     "esbuild": true

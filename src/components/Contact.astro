@@ -1,0 +1,218 @@
+---
+interface Props {
+  email?: string;
+  location?: string;
+  phones?: string[];
+  githubUrl?: string;
+  linkedinUrl?: string;
+  resumeUrl?: string;
+}
+
+const {
+  email = 'eokdeveloper@gmail.com',
+  location = 'Abuja, Nigeria',
+  phones = ['+234 706 082 3080', '+234 813 449 5096'],
+  githubUrl = 'https://github.com/eokdev',
+  linkedinUrl = 'https://www.linkedin.com/in/emmanuel-olorunshola-965909232',
+  resumeUrl = '/docs/emmanuel_resume.pdf',
+} = Astro.props;
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="contact-section" id="contact">
+  <div class="contact-container">
+    <!-- Top Bold Headline & Main Action -->
+    <div class="contact-main">
+      <h2 class="contact-title">GET IN TOUCH</h2>
+      <a href={`mailto:${email}`} class="contact-email">
+        {email}
+      </a>
+    </div>
+
+    <!-- Metadata & Social Columns -->
+    <div class="contact-meta-grid">
+      <div class="meta-col">
+        <span class="meta-heading">LOCATION</span>
+        <p class="meta-text">{location}</p>
+        <span class="coordinates">9.0765° N / 7.3986° E</span>
+      </div>
+
+      <div class="meta-col">
+        <span class="meta-heading">DIRECT</span>
+        {phones.map((phone) => (
+          <a href={`tel:${phone.replace(/\s+/g, '')}`} class="meta-link">
+            {phone}
+          </a>
+        ))}
+      </div>
+
+      <div class="meta-col">
+        <span class="meta-heading">SOCIAL</span>
+        <div class="social-links">
+          <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="meta-link">
+            GitHub
+          </a>
+          <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" class="meta-link">
+            LinkedIn
+          </a>
+          <a href={resumeUrl} target="_blank" rel="noopener noreferrer" class="meta-link">
+            Resume (PDF)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minimalist Bottom Copyright Row -->
+    <div class="contact-bottom">
+      <span class="copyright">© {currentYear} Emmanuel Olorunshola. All rights reserved.</span>
+      <span class="role-tag">Flutter Engineer & Mobile Architect</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .contact-section {
+    position: relative;
+    width: 100%;
+    padding: clamp(5rem, 9vh, 8rem) clamp(1.25rem, 4vw, 3.5rem) clamp(2.5rem, 4vh, 4rem);
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #141414;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+    user-select: none;
+  }
+
+  .contact-container {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3.5rem, 7vh, 6rem);
+  }
+
+  /* Main Contact Header */
+  .contact-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .contact-title {
+    margin: 0;
+    font-size: clamp(2.5rem, 8vw, 6.5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    color: #121212;
+  }
+
+  .contact-email {
+    font-size: clamp(1.2rem, 4vw, 2.75rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #171717;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 1.5px;
+    width: fit-content;
+    word-break: break-all;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+
+  .contact-email:hover {
+    color: #737373;
+    text-decoration-color: #a3a3a3;
+  }
+
+  /* Metadata Grid */
+  .contact-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    max-width: 960px;
+  }
+
+  .meta-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .meta-heading {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8c8c8c;
+    margin-bottom: 0.25rem;
+  }
+
+  .meta-text {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #333333;
+  }
+
+  .coordinates {
+    font-size: 0.75rem;
+    color: #a3a3a3;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .meta-link {
+    font-size: 0.88rem;
+    color: #333333;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    width: fit-content;
+  }
+
+  .meta-link:hover {
+    color: #000000;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Bottom Copyright */
+  .contact-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 2.5rem;
+    font-size: 0.75rem;
+    color: #8c8c8c;
+    letter-spacing: 0.02em;
+    flex-wrap: wrap;
+  }
+
+  .role-tag {
+    color: #a3a3a3;
+  }
+
+  @media (max-width: 768px) {
+    .contact-section {
+      padding: 4rem 1.25rem 2.5rem;
+    }
+
+    .contact-meta-grid {
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+    }
+
+    .contact-bottom {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: start;
+    }
+  }
+</style>
