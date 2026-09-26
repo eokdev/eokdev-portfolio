@@ -1,0 +1,250 @@
+---
+interface Props {
+  imageSrc?: string;
+  imageAlt?: string;
+  backText?: string;
+  backHref?: string;
+  badgeText?: string;
+  livePreviewLabel?: string;
+  livePreviewUrl?: string;
+  className?: string;
+  aspectRatio?: string;
+  maxWidth?: string;
+}
+
+const {
+  imageSrc = '/images/404-walker.jpg',
+  imageAlt = '404 - Page not found',
+  backText = 'Go back',
+  backHref = '/',
+  badgeText = '404 - Page not found',
+  livePreviewLabel = 'LIVE PREVIEW',
+  livePreviewUrl = 'gola.io/NORDEN',
+  className = '',
+  aspectRatio = '1 / 1',
+  maxWidth = '460px',
+} = Astro.props;
+---
+
+<div class={`preview-card-wrapper ${className}`}>
+  {livePreviewLabel && (
+    <div class="preview-header">
+      <span class="preview-tag">{livePreviewLabel}</span>
+      {livePreviewUrl && <span class="preview-domain">{livePreviewUrl}</span>}
+    </div>
+  )}
+
+  <div class="framed-card" style={`max-width: ${maxWidth}; aspect-ratio: ${aspectRatio};`}>
+    <!-- Base Image Layer -->
+    <div class="card-media">
+      <img src={imageSrc} alt={imageAlt} class="card-image" />
+    </div>
+
+    <!-- Top Left Inset Pill ("Go back") -->
+    <a href={backHref} class="corner-tab top-left" aria-label={backText}>
+      <span class="tab-label">{backText}</span>
+      <span class="inverted-corner corner-bottom"></span>
+      <span class="inverted-corner corner-right"></span>
+    </a>
+
+    <!-- Bottom Right Inset Pill ("404 - Page not found") -->
+    <div class="corner-tab bottom-right">
+      <span class="tab-label">{badgeText}</span>
+      <span class="inverted-corner corner-top"></span>
+      <span class="inverted-corner corner-left"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .preview-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.75rem;
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .preview-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  .preview-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #525252;
+  }
+
+  .preview-domain {
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #171717;
+  }
+
+  /* Main Card Frame */
+  .framed-card {
+    position: relative;
+    width: 100%;
+    border-radius: 32px;
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 
+      0 20px 40px -15px rgba(0, 0, 0, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .card-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: #f3f3f3;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: grayscale(100%) contrast(1.08);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .framed-card:hover .card-image {
+    transform: scale(1.03);
+  }
+
+  /* Inset Tabs */
+  .corner-tab {
+    position: absolute;
+    background-color: #ffffff;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: default;
+  }
+
+  a.corner-tab {
+    cursor: pointer;
+  }
+
+  .tab-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #262626;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  a.corner-tab:hover .tab-label {
+    color: #000000;
+  }
+
+  /* Top-Left Pill */
+  .corner-tab.top-left {
+    top: 10px;
+    left: 10px;
+    padding: 0.55rem 1.15rem 0.65rem 0.95rem;
+    border-bottom-right-radius: 20px;
+  }
+
+  /* Inverted fillets for Top-Left */
+  .corner-tab.top-left .corner-right {
+    position: absolute;
+    top: 0;
+    right: -20px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border-top-left-radius: 20px;
+    box-shadow: -6px -6px 0 6px #ffffff;
+    pointer-events: none;
+  }
+
+  .corner-tab.top-left .corner-bottom {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border-top-left-radius: 20px;
+    box-shadow: -6px -6px 0 6px #ffffff;
+    pointer-events: none;
+  }
+
+  /* Bottom-Right Pill */
+  .corner-tab.bottom-right {
+    bottom: 10px;
+    right: 10px;
+    padding: 0.65rem 1.25rem 0.55rem 1.25rem;
+    border-top-left-radius: 20px;
+  }
+
+  /* Inverted fillets for Bottom-Right */
+  .corner-tab.bottom-right .corner-left {
+    position: absolute;
+    bottom: 0;
+    left: -20px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border-bottom-right-radius: 20px;
+    box-shadow: 6px 6px 0 6px #ffffff;
+    pointer-events: none;
+  }
+
+  .corner-tab.bottom-right .corner-top {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border-bottom-right-radius: 20px;
+    box-shadow: 6px 6px 0 6px #ffffff;
+    pointer-events: none;
+  }
+
+  @media (max-width: 640px) {
+    .framed-card {
+      border-radius: 26px;
+      padding: 8px;
+    }
+
+    .card-media {
+      border-radius: 20px;
+    }
+
+    .corner-tab.top-left {
+      top: 8px;
+      left: 8px;
+      padding: 0.45rem 0.9rem;
+    }
+
+    .corner-tab.bottom-right {
+      bottom: 8px;
+      right: 8px;
+      padding: 0.45rem 1rem;
+    }
+
+    .tab-label {
+      font-size: 0.75rem;
+    }
+  }
+</style>

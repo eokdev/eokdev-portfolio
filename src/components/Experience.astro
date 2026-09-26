@@ -1,0 +1,375 @@
+---
+import { rolesData } from '../data/experience';
+
+interface Props {
+  roles?: typeof rolesData;
+  portraitSrc?: string;
+}
+
+const {
+  roles = rolesData,
+  portraitSrc = '/images/avatar.jpg',
+} = Astro.props;
+---
+
+<section class="experience-section" id="experience" data-experience-section>
+  <!-- Top Minimalist Header -->
+  <div class="exp-header">
+    <div class="header-left">
+      <h2 class="exp-title">EXPERIENCE</h2>
+    </div>
+    <div class="header-right">
+      <span class="exp-stat">5+ YEARS SHIPPING</span>
+      <span class="exp-stat-sep">/</span>
+      <span class="exp-stat">13+ PRODUCTION APPS</span>
+    </div>
+  </div>
+
+  <!-- Editorial Split Layout -->
+  <div class="exp-body">
+    <!-- Left Column: Portrait & Biography -->
+    <div class="bio-column">
+      <div class="portrait-wrapper">
+        <img 
+          src={portraitSrc} 
+          alt="Emmanuel Olorunshola" 
+          class="portrait-img"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="bio-text-group">
+        <span class="bio-label">ABOUT</span>
+        <p class="bio-lead">
+          Flutter engineer with 5+ years building and shipping production Android and iOS applications.
+        </p>
+        <p class="bio-detail">
+          Specializing in offline-first systems, polygon geofencing, real-time sync, and multi-platform payment gateways. Focused on performance profiling and clean architecture that scales to thousands of daily active users.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Column: Career Roles & Timeline -->
+    <div class="roles-column">
+      <div class="roles-list">
+        {roles.map((role, idx) => (
+          <div class:list={['role-card', { active: idx === 0 }]} data-role-item>
+            <div class="role-header">
+              <div class="role-title-group">
+                <span class="role-company">{role.company}</span>
+                <span class="role-role">{role.title}</span>
+              </div>
+              <span class="role-period">{role.period}</span>
+            </div>
+
+            <p class="role-summary">{role.summary}</p>
+
+            <ul class="role-highlights">
+              {role.highlights.map((item) => (
+                <li class="highlight-item">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+
+  function initExperienceSection() {
+    const section = document.querySelector<HTMLElement>('[data-experience-section]');
+    if (!section) return;
+
+    const cards = section.querySelectorAll<HTMLElement>('[data-role-item]');
+
+    cards.forEach((card) => {
+      card.addEventListener('mouseenter', () => {
+        cards.forEach((c) => c.classList.remove('active'));
+        card.classList.add('active');
+      });
+
+      card.addEventListener('click', () => {
+        cards.forEach((c) => c.classList.remove('active'));
+        card.classList.add('active');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initExperienceSection);
+  } else {
+    initExperienceSection();
+  }
+  document.addEventListener('astro:page-load', initExperienceSection);
+</script>
+
+<style>
+  .experience-section {
+    position: relative;
+    width: 100%;
+    padding: clamp(4rem, 8vh, 7rem) clamp(1.25rem, 4vw, 3.5rem);
+    box-sizing: border-box;
+    background-color: #f7f6f4;
+    color: #141414;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+    user-select: none;
+  }
+
+  /* Top Minimal Header */
+  .exp-header {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto clamp(2.5rem, 5vh, 4rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .exp-title {
+    margin: 0;
+    font-size: clamp(2rem, 5.5vw, 4.2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    color: #121212;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: clamp(0.68rem, 1.8vw, 0.75rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #787878;
+    flex-wrap: wrap;
+  }
+
+  .exp-stat-sep {
+    color: #c4c4c4;
+  }
+
+  /* Editorial Split Body */
+  .exp-body {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  /* Left Column: Portrait & Bio */
+  .bio-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .portrait-wrapper {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: #e8e7e4;
+  }
+
+  .portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+    filter: grayscale(100%) contrast(1.06);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .portrait-wrapper:hover .portrait-img {
+    transform: scale(1.03);
+  }
+
+  .bio-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    max-width: 340px;
+  }
+
+  .bio-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8c8c8c;
+  }
+
+  .bio-lead {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #171717;
+    letter-spacing: -0.01em;
+  }
+
+  .bio-detail {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #666666;
+  }
+
+  /* Right Column: Roles List */
+  .roles-column {
+    width: 100%;
+  }
+
+  .roles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .role-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding-bottom: 2rem;
+    transition: opacity 0.3s ease;
+    opacity: 0.45;
+    cursor: pointer;
+  }
+
+  .role-card.active,
+  .role-card:hover {
+    opacity: 1;
+  }
+
+  .role-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .role-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .role-company {
+    font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #121212;
+    line-height: 1.2;
+  }
+
+  .role-role {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #737373;
+    letter-spacing: 0.02em;
+  }
+
+  .role-period {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #8c8c8c;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .role-summary {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: #404040;
+    max-width: 680px;
+  }
+
+  .role-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .highlight-item {
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: #666666;
+    position: relative;
+    padding-left: 1rem;
+  }
+
+  .highlight-item::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    color: #999999;
+  }
+
+  @media (max-width: 960px) {
+    .exp-body {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .bio-column {
+      flex-direction: row;
+      align-items: start;
+      gap: 2rem;
+    }
+
+    .portrait-wrapper {
+      max-width: 180px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .bio-text-group {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .exp-body {
+      gap: 2.5rem;
+    }
+
+    .bio-column {
+      flex-direction: column;
+    }
+
+    .portrait-wrapper {
+      max-width: 100%;
+      aspect-ratio: 16 / 10;
+    }
+
+    .role-header {
+      flex-direction: column;
+      align-items: start;
+      gap: 0.35rem;
+    }
+
+    .role-card {
+      opacity: 1;
+      padding-bottom: 1.5rem;
+    }
+  }
+</style>

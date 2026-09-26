@@ -1,0 +1,164 @@
+---
+import { 
+  IconBrandFlutter, 
+  IconBrandAndroid, 
+  IconBrandApple, 
+  IconBrandFirebase, 
+  IconBrandStripe, 
+  IconBrandGit, 
+  IconBrandFigma, 
+  IconDatabase,
+  IconMapPin,
+  IconCode
+} from '@tabler/icons-astro';
+---
+
+<section class="tools-section" id="tools">
+  <div class="tools-container">
+    <div class="tools-header">
+      <span class="tools-label">TOOLS</span>
+    </div>
+
+    <div class="tools-row">
+      <!-- Flutter -->
+      <div class="tool-chip" title="Flutter">
+        <IconBrandFlutter size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Dart -->
+      <div class="tool-chip" title="Dart">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M4.1 12.5L2 14.6l5.5 5.5 2.1-2.1L4.1 12.5zm15.8-8.4l-5.5-2.1-7.9 7.9 5.5 5.5 7.9-7.9-2.1-2.1zM6.2 9.7l3.6 3.6-2.1 2.1-3.6-3.6 2.1-2.1z"/>
+        </svg>
+      </div>
+
+      <!-- Android -->
+      <div class="tool-chip" title="Android">
+        <IconBrandAndroid size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Apple / iOS -->
+      <div class="tool-chip" title="iOS">
+        <IconBrandApple size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Riverpod -->
+      <div class="tool-chip" title="Riverpod">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13" opacity="0.8"/>
+          <circle cx="12" cy="12" r="3.5" fill="currentColor"/>
+        </svg>
+      </div>
+
+      <!-- BLoC -->
+      <div class="tool-chip" title="BLoC Architecture">
+        <IconCode size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Firebase -->
+      <div class="tool-chip" title="Firebase">
+        <IconBrandFirebase size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- SQLite & Hive -->
+      <div class="tool-chip" title="SQLite & Hive">
+        <IconDatabase size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Stripe -->
+      <div class="tool-chip" title="Stripe Payments">
+        <IconBrandStripe size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Google Maps -->
+      <div class="tool-chip" title="Google Maps & Geofencing">
+        <IconMapPin size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Git & CI/CD -->
+      <div class="tool-chip" title="Git & CI/CD">
+        <IconBrandGit size={20} stroke-width={1.75} />
+      </div>
+
+      <!-- Figma -->
+      <div class="tool-chip" title="Figma">
+        <IconBrandFigma size={20} stroke-width={1.75} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tools-section {
+    position: relative;
+    width: 100%;
+    padding: clamp(2.5rem, 5vh, 4rem) clamp(1.25rem, 4vw, 3.5rem);
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #141414;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+    user-select: none;
+  }
+
+  .tools-container {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .tools-header {
+    display: flex;
+    align-items: center;
+  }
+
+  .tools-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8c8c8c;
+  }
+
+  .tools-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 2vw, 1.35rem);
+    align-items: center;
+  }
+
+  .tool-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background-color: #f2f1ee;
+    color: #1f1f1f;
+    transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    cursor: default;
+  }
+
+  .tool-chip:hover {
+    background-color: #171717;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 640px) {
+    .tools-row {
+      gap: 0.75rem;
+    }
+
+    .tool-chip {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+    }
+  }
+</style>

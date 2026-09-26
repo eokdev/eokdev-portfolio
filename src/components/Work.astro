@@ -1,0 +1,658 @@
+---
+import { projectsData } from '../data/projects';
+
+interface Props {
+  projects?: typeof projectsData;
+}
+
+const { projects = projectsData } = Astro.props;
+---
+
+<section class="work-section" id="work" data-work-section>
+  <!-- Top Minimalist Section Header -->
+  <div class="work-header">
+    <div class="header-left">
+      <span class="section-label">SELECTED WORKS</span>
+      <span class="project-count">({projects.length.toString().padStart(2, '0')})</span>
+    </div>
+    <div class="header-right">
+      <span class="nav-hint" data-active-counter>01 / {projects.length.toString().padStart(2, '0')}</span>
+    </div>
+  </div>
+
+  <!-- Main 3-Column Interactive Layout -->
+  <div class="work-container">
+    <!-- Left: Minimalist Project List (Horizontal scrollable on mobile, column on desktop) -->
+    <div class="projects-list-col">
+      <ul class="projects-list" role="tablist">
+        {projects.map((item, idx) => (
+          <li class="project-item">
+            <button
+              type="button"
+              class:list={['project-nav-btn', { active: idx === 0 }]}
+              data-project-index={idx}
+              role="tab"
+              aria-selected={idx === 0}
+            >
+              <span class="item-index">{item.index}</span>
+              <span class="item-name">{item.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Center: Animated Visual Showcase -->
+    <div class="showcase-col">
+      <div class="showcase-frame" data-showcase-frame>
+        <div class="image-track" data-image-track>
+          {projects.map((item, idx) => (
+            <div class:list={['image-slide', { active: idx === 0 }]} data-slide-index={idx}>
+              <div class="slide-index-top">({item.index})</div>
+              <div class="slide-media-wrap">
+                <img 
+                  src={item.image} 
+                  alt={item.name} 
+                  class="slide-img" 
+                  loading={idx === 0 ? 'eager' : 'lazy'} 
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Dynamic Details & Links -->
+    <div class="details-col">
+      {projects.map((item, idx) => (
+        <div class:list={['project-detail-panel', { active: idx === 0 }]} data-detail-index={idx}>
+          <div class="detail-header">
+            <span class="detail-category">{item.category}</span>
+            <span class="detail-year">{item.year}</span>
+          </div>
+
+          <h3 class="detail-title">{item.name}</h3>
+
+          <p class="detail-blurb">{item.blurb}</p>
+
+          <div class="detail-tags">
+            {item.tags.map((tag) => (
+              <span class="tag-pill">{tag}</span>
+            ))}
+          </div>
+
+          <div class="detail-links">
+            {item.iosUrl && (
+              <a href={item.iosUrl} target="_blank" rel="noopener noreferrer" class="action-link">
+                App Store
+              </a>
+            )}
+            {item.androidUrl && (
+              <a href={item.androidUrl} target="_blank" rel="noopener noreferrer" class="action-link">
+                Google Play
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+
+  function initWorkSection() {
+    const section = document.querySelector<HTMLElement>('[data-work-section]');
+    if (!section) return;
+
+    const navButtons = section.querySelectorAll<HTMLButtonElement>('[data-project-index]');
+    const slides = section.querySelectorAll<HTMLElement>('[data-slide-index]');
+    const details = section.querySelectorAll<HTMLElement>('[data-detail-index]');
+    const counter = section.querySelector<HTMLElement>('[data-active-counter]');
+    const total = navButtons.length;
+
+    let currentIndex = 0;
+    let isTransitioning = false;
+
+    function goToProject(newIndex: number) {
+      if (newIndex === currentIndex || newIndex < 0 || newIndex >= total) return;
+      if (isTransitioning) return;
+
+      isTransitioning = true;
+      const prevIndex = currentIndex;
+      currentIndex = newIndex;
+
+      // Update Nav List
+      navButtons.forEach((btn, idx) => {
+        const isActive = idx === currentIndex;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive.toString());
+        if (isActive) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      });
+
+      // Update Counter
+      if (counter) {
+        counter.textContent = `${(currentIndex + 1).toString().padStart(2, '0')} / ${total.toString().padStart(2, '0')}`;
+      }
+
+      // Slide Animation
+      const prevSlide = slides[prevIndex];
+      const nextSlide = slides[currentIndex];
+      const goingDown = newIndex > prevIndex;
+
+      if (prevSlide && nextSlide) {
+        prevSlide.classList.remove('active');
+        nextSlide.classList.add('active');
+
+        gsap.killTweensOf([prevSlide, nextSlide]);
+
+        gsap.fromTo(
+          prevSlide,
+          { opacity: 1, yPercent: 0, scale: 1 },
+          { 
+            opacity: 0, 
+            yPercent: goingDown ? -15 : 15, 
+            scale: 0.96, 
+            duration: 0.5, 
+            ease: 'power2.inOut' 
+          }
+        );
+
+        gsap.fromTo(
+          nextSlide,
+          { opacity: 0, yPercent: goingDown ? 15 : -15, scale: 0.96 },
+          { 
+            opacity: 1, 
+            yPercent: 0, 
+            scale: 1, 
+            duration: 0.5, 
+            ease: 'power2.out',
+            onComplete: () => {
+              isTransitioning = false;
+            }
+          }
+        );
+      } else {
+        isTransitioning = false;
+      }
+
+      // Details Panel Transition
+      const prevDetail = details[prevIndex];
+      const nextDetail = details[currentIndex];
+
+      if (prevDetail && nextDetail) {
+        prevDetail.classList.remove('active');
+        nextDetail.classList.add('active');
+
+        gsap.killTweensOf([prevDetail, nextDetail]);
+
+        gsap.fromTo(
+          prevDetail,
+          { opacity: 1, y: 0 },
+          { opacity: 0, y: goingDown ? -8 : 8, duration: 0.25, ease: 'power2.in' }
+        );
+
+        gsap.fromTo(
+          nextDetail,
+          { opacity: 0, y: goingDown ? 8 : -8 },
+          { opacity: 1, y: 0, duration: 0.35, delay: 0.12, ease: 'power2.out' }
+        );
+      }
+    }
+
+    // Button click listeners
+    navButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetIndex = parseInt(btn.dataset.projectIndex || '0', 10);
+        goToProject(targetIndex);
+      });
+
+      btn.addEventListener('mouseenter', () => {
+        if (window.innerWidth >= 1024) {
+          const targetIndex = parseInt(btn.dataset.projectIndex || '0', 10);
+          goToProject(targetIndex);
+        }
+      });
+    });
+
+    // Frame interaction: click & wheel
+    const frame = section.querySelector<HTMLElement>('[data-showcase-frame]');
+    if (frame) {
+      let wheelTimeout: NodeJS.Timeout;
+      frame.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        clearTimeout(wheelTimeout);
+        wheelTimeout = setTimeout(() => {
+          if (e.deltaY > 20) {
+            goToProject((currentIndex + 1) % total);
+          } else if (e.deltaY < -20) {
+            goToProject((currentIndex - 1 + total) % total);
+          }
+        }, 40);
+      }, { passive: false });
+
+      frame.addEventListener('click', () => {
+        goToProject((currentIndex + 1) % total);
+      });
+
+      // Mobile Touch Swipe Support
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      frame.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+
+      frame.addEventListener('touchend', (e) => {
+        const deltaX = e.changedTouches[0].screenX - touchStartX;
+        const deltaY = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+          if (deltaX < 0) {
+            goToProject((currentIndex + 1) % total);
+          } else {
+            goToProject((currentIndex - 1 + total) % total);
+          }
+        }
+      }, { passive: true });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWorkSection);
+  } else {
+    initWorkSection();
+  }
+  document.addEventListener('astro:page-load', initWorkSection);
+</script>
+
+<style>
+  .work-section {
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    padding: clamp(3rem, 6vh, 5rem) clamp(1.25rem, 4vw, 3.5rem);
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #121212;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-x: hidden;
+  }
+
+  /* Top Minimal Header */
+  .work-header {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #737373;
+  }
+
+  .header-left {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .section-label {
+    color: #171717;
+    font-weight: 600;
+  }
+
+  .project-count {
+    color: #a3a3a3;
+  }
+
+  .nav-hint {
+    color: #737373;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 3-Column Container */
+  .work-container {
+    display: grid;
+    grid-template-columns: 260px 1fr 280px;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+    width: 100%;
+    max-width: 1360px;
+    margin: auto auto;
+    min-height: 520px;
+  }
+
+  /* Left Column: Nav List */
+  .projects-list-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .project-item {
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .project-nav-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0.35rem 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #a3a3a3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-align: left;
+    transition: color 0.25s ease, transform 0.25s ease;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .project-nav-btn:focus,
+  .project-nav-btn:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .item-index {
+    font-size: 0.72rem;
+    color: #d4d4d4;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.25s ease;
+  }
+
+  .item-name {
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .project-nav-btn:hover {
+    color: #404040;
+    transform: translateX(4px);
+  }
+
+  .project-nav-btn.active {
+    color: #000000;
+    font-weight: 600;
+    transform: translateX(8px);
+  }
+
+  .project-nav-btn.active .item-index {
+    color: #171717;
+  }
+
+  /* Center Column: Animated Visual Stage */
+  .showcase-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .showcase-frame {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #f5f5f5;
+  }
+
+  .image-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .image-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .image-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .slide-index-top {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: #a3a3a3;
+    letter-spacing: 0.05em;
+  }
+
+  .slide-media-wrap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #ededed;
+  }
+
+  .slide-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: contrast(1.02);
+  }
+
+  /* Right Column: Project Details Panel */
+  .details-col {
+    position: relative;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+  }
+
+  .project-detail-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.9rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-detail-panel.active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+  }
+
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #737373;
+  }
+
+  .detail-title {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.5vw, 1.65rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #121212;
+    line-height: 1.15;
+  }
+
+  .detail-blurb {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #525252;
+  }
+
+  .detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tag-pill {
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: #737373;
+    background-color: #f5f5f5;
+    padding: 0.22rem 0.6rem;
+    border-radius: 9999px;
+  }
+
+  .detail-links {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .action-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #171717;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .action-link:hover {
+    color: #737373;
+  }
+
+  @media (max-width: 1080px) {
+    .work-container {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem 2rem;
+    }
+
+    .projects-list-col {
+      grid-column: span 2;
+      width: 100%;
+    }
+
+    .projects-list {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.25rem 0 0.5rem;
+      gap: 0.65rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .projects-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .project-nav-btn {
+      padding: 0.45rem 1rem;
+      background-color: #f2f1ee;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      transform: none !important;
+      border: none;
+      outline: none;
+    }
+
+    .project-nav-btn.active {
+      background-color: #171717;
+      color: #ffffff;
+      transform: none !important;
+      border: none;
+      outline: none;
+    }
+
+    .project-nav-btn.active .item-index {
+      color: #a3a3a3;
+    }
+
+    .showcase-col {
+      order: 2;
+    }
+
+    .details-col {
+      order: 3;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .work-section {
+      padding: 3rem 1.25rem 3.5rem;
+    }
+
+    .work-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+      min-height: auto;
+    }
+
+    .showcase-frame {
+      max-width: 100%;
+      aspect-ratio: 16 / 10;
+    }
+
+    .details-col {
+      min-height: auto;
+      width: 100%;
+    }
+  }
+</style>

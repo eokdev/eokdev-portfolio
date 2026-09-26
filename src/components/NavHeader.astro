@@ -1,0 +1,176 @@
+---
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const navItems: NavItem[] = [
+  { label: 'Home', href: '#hero' },
+  { label: 'Work', href: '#work' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<div class="fixed-nav-wrapper" data-fixed-nav>
+  <nav class="fixed-nav-capsule" aria-label="Floating navigation">
+    {navItems.map((item, idx) => (
+      <a 
+        href={item.href} 
+        class:list={['fixed-nav-link', { active: idx === 0 }]}
+        data-nav-href={item.href}
+      >
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</div>
+
+<script>
+  function initStickyNav() {
+    const navWrapper = document.querySelector<HTMLElement>('[data-fixed-nav]');
+    if (!navWrapper) return;
+
+    const hero = document.getElementById('hero');
+    const navLinks = navWrapper.querySelectorAll<HTMLAnchorElement>('[data-nav-href]');
+    const sections = Array.from(navLinks)
+      .map((link) => {
+        const id = link.getAttribute('data-nav-href')?.replace('#', '');
+        return id ? document.getElementById(id) : null;
+      })
+      .filter((s): s is HTMLElement => s !== null);
+
+    // Scroll visibility toggle: Only show once past the Hero section
+    function checkVisibility() {
+      if (!hero) {
+        navWrapper.classList.add('visible');
+        return;
+      }
+
+      const heroRect = hero.getBoundingClientRect();
+      // Only display once scrolled past the hero section
+      if (heroRect.bottom <= 60) {
+        navWrapper.classList.add('visible');
+      } else {
+        navWrapper.classList.remove('visible');
+      }
+    }
+
+    window.addEventListener('scroll', checkVisibility, { passive: true });
+    checkVisibility();
+
+    // Active link highlight via IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = `#${entry.target.id}`;
+            navLinks.forEach((link) => {
+              const isActive = link.getAttribute('data-nav-href') === id;
+              link.classList.toggle('active', isActive);
+            });
+          }
+        });
+      },
+      {
+        rootMargin: '-30% 0px -60% 0px',
+        threshold: 0,
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    // Smooth scroll on click
+    navLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('data-nav-href');
+        if (href && href.startsWith('#')) {
+          const target = document.getElementById(href.slice(1));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStickyNav);
+  } else {
+    initStickyNav();
+  }
+  document.addEventListener('astro:page-load', initStickyNav);
+</script>
+
+<style>
+  .fixed-nav-wrapper {
+    position: fixed;
+    top: 1.25rem;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0;
+    width: fit-content;
+    max-width: calc(100vw - 2rem);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fixed-nav-wrapper.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  .fixed-nav-capsule {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px;
+    border-radius: 9999px;
+    background-color: rgba(20, 20, 20, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .fixed-nav-capsule::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fixed-nav-link {
+    padding: 0.38rem 0.95rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .fixed-nav-link:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .fixed-nav-link.active {
+    background-color: #ffffff;
+    color: #121212;
+    font-weight: 600;
+  }
+
+  @media (max-width: 480px) {
+    .fixed-nav-wrapper {
+      top: 0.85rem;
+    }
+
+    .fixed-nav-link {
+      padding: 0.32rem 0.7rem;
+      font-size: 0.68rem;
+    }
+  }
+</style>

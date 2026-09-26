@@ -1,0 +1,125 @@
+---
+import NavHeader from '../components/NavHeader.astro';
+import Hero from '../components/Hero.astro';
+import Work from '../components/Work.astro';
+import Experience from '../components/Experience.astro';
+import Tools from '../components/Tools.astro';
+import Skills from '../components/Skills.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content="Emmanuel Olorunshola - Lead Flutter Engineer & Mobile App Architect based in Abuja, Nigeria." />
+		<title>Emmanuel Olorunshola · Flutter Engineer</title>
+	</head>
+	<body>
+		<NavHeader />
+		<Hero />
+		<Work />
+		<Experience />
+		<Tools />
+		<Skills />
+		<About />
+		<Contact />
+
+		<script>
+			import gsap from 'gsap';
+
+			function initScrollAnimations() {
+				const revealElements = document.querySelectorAll<HTMLElement>(
+					'.exp-header, .bio-column, .roles-list, .tools-container, .capabilities-header, .capabilities-row, .about-container, .contact-main, .contact-meta-grid'
+				);
+
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								const target = entry.target as HTMLElement;
+								gsap.fromTo(
+									target,
+									{ opacity: 0, y: 30 },
+									{ 
+										opacity: 1, 
+										y: 0, 
+										duration: 0.8, 
+										ease: 'power3.out',
+										clearProps: 'transform'
+									}
+								);
+								observer.unobserve(target);
+							}
+						});
+					},
+					{
+						threshold: 0.1,
+						rootMargin: '0px 0px -40px 0px',
+					}
+				);
+
+				revealElements.forEach((el) => {
+					el.style.opacity = '0';
+					observer.observe(el);
+				});
+			}
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initScrollAnimations);
+			} else {
+				initScrollAnimations();
+			}
+			document.addEventListener('astro:page-load', initScrollAnimations);
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	*, *::before, *::after {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	html {
+		width: 100%;
+		max-width: 100vw;
+		min-width: 100vw;
+		overflow-x: hidden;
+		scroll-behavior: smooth;
+	}
+
+	body {
+		width: 100%;
+		max-width: 100vw;
+		min-width: 100vw;
+		overflow-x: hidden;
+		background-color: #ffffff;
+		color: #141414;
+		font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+		min-height: 100vh;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		box-sizing: border-box;
+	}
+
+	::selection {
+		background: #171717;
+		color: #ffffff;
+	}
+
+	/* Global scrollbar hiding for horizontal list tracks */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+</style>
