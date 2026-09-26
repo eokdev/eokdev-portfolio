@@ -1,0 +1,52 @@
+Running `(cd /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/; TMPDIR=/var/folders/t2/js7n9x013jnbw94hb5fzqxj00000gn/T/ PATH=/opt/homebrew/opt/ruby/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/eokdev/Development/flutter/bin:/Applications/Cursor.app/Contents/Resources/app/node_modules/@vscode/ripgrep/bin:/opt/homebrew/opt/ruby/bin HOME=/Users/eokdev /Users/eokdev/Development/flutter/bin/cache/dart-sdk/bin/dart '--packages=/Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/package_config.json' '/Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/objective_c/7ad245dadc068daf8ba9d7bb51a8ef8e/hook.dill' '--config=/Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/objective_c/7ad245dadc068daf8ba9d7bb51a8ef8e/input.json' )`.
+INFO: 2026-09-06 13:00:17.949542: Using compiler /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang from BuildInput.cCompiler.cc.
+
+INFO: 2026-09-06 13:00:17.953524: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/include/dart_api_dl.c -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/include/dart_api_dl.c.o
+
+INFO: 2026-09-06 13:00:17.954945: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/objective_c.c -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.c.o
+
+INFO: 2026-09-06 13:00:17.955115: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/input_stream_adapter.m -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-09-06 13:00:17.955227: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/objective_c.m -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.m.o
+
+INFO: 2026-09-06 13:00:17.955389: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/observer.m -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/observer.m.o
+
+INFO: 2026-09-06 13:00:17.955567: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/ns_number.m -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/ns_number.m.o
+
+INFO: 2026-09-06 13:00:17.955672: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/protocol.m -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/protocol.m.o
+
+INFO: 2026-09-06 13:00:17.955772: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/eokdev/.pub-cache/hosted/pub.dev/objective_c-9.5.0/src/objective_c_bindings_generated.m -fpic -gline-tables-only -I src -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-09-06 13:00:18.238319: 
+INFO: 2026-09-06 13:00:18.238405: 
+INFO: 2026-09-06 13:00:18.238434: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.c.o
+INFO: 2026-09-06 13:00:18.238710: 
+INFO: 2026-09-06 13:00:18.238732: 
+INFO: 2026-09-06 13:00:18.238744: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/include/dart_api_dl.c.o
+
+INFO: 2026-09-06 13:00:18.242395: 
+INFO: 2026-09-06 13:00:18.242432: 
+INFO: 2026-09-06 13:00:18.242444: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/observer.m.o
+
+INFO: 2026-09-06 13:00:18.249292: 
+INFO: 2026-09-06 13:00:18.249333: 
+INFO: 2026-09-06 13:00:18.249345: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/protocol.m.o
+
+INFO: 2026-09-06 13:00:18.670919: 
+INFO: 2026-09-06 13:00:18.670961: 
+INFO: 2026-09-06 13:00:18.670973: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/ns_number.m.o
+
+INFO: 2026-09-06 13:00:18.687717: 
+INFO: 2026-09-06 13:00:18.687730: 
+INFO: 2026-09-06 13:00:18.687741: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-09-06 13:00:18.741444: 
+INFO: 2026-09-06 13:00:18.741485: 
+INFO: 2026-09-06 13:00:18.741496: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-09-06 13:00:18.741845: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -shared -Wl,-encryptable -undefined dynamic_lookup -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk -target arm64-apple-darwin -mmacos-version-min=13 /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/include/dart_api_dl.c.o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.c.o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/input_stream_adapter.m.o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c.m.o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/observer.m.o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/ns_number.m.o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/protocol.m.o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/obj/src/objective_c_bindings_generated.m.o -o /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/objective_c.dylib
+
+INFO: 2026-09-06 13:00:18.883779: 
+INFO: 2026-09-06 13:00:18.883838: 
+INFO: 2026-09-06 13:00:18.883849: Generated /Users/eokdev/Development/Flutter Projects/eokdev_portfolio/.dart_tool/hooks_runner/shared/objective_c/build/7ad245dadc/objective_c.dylib
+
