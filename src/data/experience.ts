@@ -12,7 +12,7 @@ export const rolesData: RoleItem[] = [
   {
     id: 'tractrac',
     company: 'Tractrac Mechanisation Services Limited',
-    title: 'Flutter Developer',
+    title: 'Mobile Engineer',
     period: 'Apr 2025 to Present',
     location: 'Hybrid, Abuja',
     summary: 'Building and shipping three production Flutter apps that serve 3,000+ farmers, tractor owners, and field agents across Nigeria.',
@@ -21,16 +21,16 @@ export const rolesData: RoleItem[] = [
       'Engineered offline farm size measurement with polygon geofencing so land can be assessed with zero connectivity.',
       'Built offline first booking and tracking with background sync for low connectivity rural use.',
       'Defined API contracts with backend engineers and contributed to farm service and tractor deployment system design.',
-      'Sole Flutter developer on Atom Office: real time staff activity, attendance, task oversight, and daily reporting.',
+      'Sole mobile engineer on Atom Office: real time staff activity, attendance, task oversight, and daily reporting.',
     ],
   },
   {
     id: 'blending-bytes',
     company: 'Blending Bytes Technologies',
-    title: 'Flutter Developer',
+    title: 'Mobile Engineer',
     period: 'Oct 2023 to May 2025',
     location: 'Remote',
-    summary: 'Sole Flutter engineer on three live apps spanning car ecommerce, dealer tooling, and telemedicine.',
+    summary: 'Sole mobile engineer on three live apps spanning car ecommerce, dealer tooling, and telemedicine.',
     highlights: [
       'Autovendy: vehicle marketplace with checkout and real time inventory sync on iOS and Android.',
       'Autovendy Dealer: custom camera with 360° capture, panorama, 0.5x wide angle, native channel integration, and offline listing auto sync.',
@@ -42,7 +42,7 @@ export const rolesData: RoleItem[] = [
   {
     id: 'hngx',
     company: 'HNGx',
-    title: 'Flutter Developer',
+    title: 'Mobile Engineer',
     period: 'Sep 2023 to Nov 2023',
     location: 'Remote',
     summary: 'Finalist in the top 300 of 22,000+ participants in a highly competitive internship. Shipped Flutter apps under tight deadlines with global remote teams.',
@@ -54,7 +54,7 @@ export const rolesData: RoleItem[] = [
   {
     id: 'ruban',
     company: 'Ruban Technology',
-    title: 'Flutter Developer',
+    title: 'Mobile Engineer',
     period: 'Jul 2022 to Aug 2023',
     location: 'Hybrid, Gwarinpa, Abuja',
     summary: 'Shipped production Flutter apps for field operations and enterprise workflows, with a focus on speed on low end Android.',
