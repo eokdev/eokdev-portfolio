@@ -20,7 +20,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Creator economy',
     year: '2025',
     blurb: 'Mobile lead on a social marketplace where creators grow audiences, fund ideas, and monetise work. I still maintain the app and ship add on features.',
-    tags: ['Flutter', 'Payments', 'Leadership', 'Android', 'iOS'],
+    tags: ['Payments', 'Leadership', 'Android', 'iOS'],
     image: '/images/apps/dream_planet/ios_01.jpg',
     gallery: [
       '/images/apps/dream_planet/ios_01.jpg',
@@ -40,7 +40,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Fintech, Exchange',
     year: '2025',
     blurb: 'Nigeria digital finance app for crypto, gift card trading, utility bills, and virtual dollar cards. Live on Play Store and the App Store.',
-    tags: ['Flutter', 'Fintech', 'Payments', 'Android', 'iOS'],
+    tags: ['Fintech', 'Payments', 'Android', 'iOS'],
     image: '/images/apps/nexodius/ios_01.jpg',
     gallery: [
       '/images/apps/nexodius/ios_01.jpg',
@@ -60,7 +60,7 @@ export const projectsData: ProjectItem[] = [
     category: 'AgriTech, Marketplace',
     year: '2025',
     blurb: 'The farmer and tractor owner app for mechanisation services across Nigeria. Book implements, measure land, and hire tractors, including when you are offline.',
-    tags: ['Flutter', 'Maps', 'Offline first', 'Android', 'iOS'],
+    tags: ['Maps', 'Offline first', 'Android', 'iOS'],
     image: '/images/apps/tractrac_plus/ios_01.jpg',
     gallery: [
       '/images/apps/tractrac_plus/ios_01.jpg',
@@ -78,7 +78,7 @@ export const projectsData: ProjectItem[] = [
     category: 'AgriTech, Operations',
     year: '2025',
     blurb: 'The operations hub for tractor owners and booking agents. Fleet control, earnings, and demand aggregation in the field.',
-    tags: ['Flutter', 'Offline first', 'Android', 'iOS'],
+    tags: ['Offline first', 'Android', 'iOS'],
     image: '/images/apps/tractrac_agent/ios_01.jpg',
     gallery: [
       '/images/apps/tractrac_agent/ios_01.jpg',
@@ -96,7 +96,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Ecommerce, Automotive',
     year: '2024',
     blurb: 'Nigeria used car marketplace for listing, browsing, and buying vehicles, with live inventory and checkout across payment methods.',
-    tags: ['Flutter', 'Payments', 'REST', 'Hive', 'Android', 'iOS'],
+    tags: ['Payments', 'REST', 'Hive', 'Android', 'iOS'],
     image: '/images/apps/autovendy/play_01.webp',
     gallery: [
       '/images/apps/autovendy/play_01.webp',
@@ -115,7 +115,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Telemedicine',
     year: '2024',
     blurb: 'Consultations, AI consultancy, drug purchases, subscriptions, and lab bookings on Android, with in app payments and cached API flows.',
-    tags: ['Flutter', 'Paystack', 'REST', 'AI', 'Android'],
+    tags: ['Paystack', 'REST', 'AI', 'Android'],
     image: '/images/apps/medik/play_03.webp',
     gallery: [
       '/images/apps/medik/play_03.webp',
@@ -134,7 +134,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Workplace, Accountability',
     year: '2024',
     blurb: 'Smart office management for distributed teams. Real time staff activity, attendance, task oversight, and structured daily reporting.',
-    tags: ['Flutter', 'Realtime', 'Android', 'iOS'],
+    tags: ['Realtime', 'Android', 'iOS'],
     image: '/images/apps/atom_office/ios_01.jpg',
     gallery: [
       '/images/apps/atom_office/ios_01.jpg',
@@ -154,7 +154,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Dealer tooling',
     year: '2024',
     blurb: 'Dealer app with a custom camera stack: 360-degree capture, panorama, wide-angle, and offline listings that sync when the lot gets signal.',
-    tags: ['Flutter', 'Camera', 'Platform channels', 'Offline', 'iOS'],
+    tags: ['Camera', 'Platform channels', 'Offline', 'iOS'],
     image: '/images/apps/autovendy_dealer/ios_01.webp',
     gallery: [
       '/images/apps/autovendy_dealer/ios_01.webp',
@@ -192,7 +192,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Field ops, Analytics',
     year: '2024',
     blurb: 'Project Analytics, Tracking, and Harmonization. A field data and project management app for Ikore International, live on Google Play.',
-    tags: ['Flutter', 'Field data', 'Analytics', 'Android'],
+    tags: ['Field data', 'Analytics', 'Android'],
     image: '/images/apps/ikore_path/play_03.webp',
     gallery: [
       '/images/apps/ikore_path/play_03.webp',
@@ -211,7 +211,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Marketplace, Procurement',
     year: '2023',
     blurb: 'Marketplace and procurement app for MSMEs. Search categories, buy, and track spend in a trust based trade ecosystem.',
-    tags: ['Flutter', 'Marketplace', 'Analytics', 'Android'],
+    tags: ['Marketplace', 'Analytics', 'Android'],
     image: '/images/apps/tradevila/play_01.webp',
     gallery: [
       '/images/apps/tradevila/play_01.webp',

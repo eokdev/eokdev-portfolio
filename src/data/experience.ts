@@ -15,7 +15,7 @@ export const rolesData: RoleItem[] = [
     title: 'Mobile Engineer',
     period: 'Apr 2025 to Present',
     location: 'Hybrid, Abuja',
-    summary: 'Building and shipping three production Flutter apps that serve 3,000+ farmers, tractor owners, and field agents across Nigeria.',
+    summary: 'Building and shipping three production mobile apps that serve 3,000+ farmers, tractor owners, and field agents across Nigeria.',
     highlights: [
       'Shipped Tractrac Plus, Tractrac Agent, and Atom Office on Android and iOS.',
       'Engineered offline farm size measurement with polygon geofencing so land can be assessed with zero connectivity.',
@@ -45,7 +45,7 @@ export const rolesData: RoleItem[] = [
     title: 'Mobile Engineer',
     period: 'Sep 2023 to Nov 2023',
     location: 'Remote',
-    summary: 'Finalist in the top 300 of 22,000+ participants in a highly competitive internship. Shipped Flutter apps under tight deadlines with global remote teams.',
+    summary: 'Finalist in the top 300 of 22,000+ participants in a highly competitive internship. Shipped mobile apps under tight deadlines with global remote teams.',
     highlights: [
       'Delivered cross platform features on compressed timelines.',
       'Practised real world collaboration, review, and delivery discipline.',
@@ -57,7 +57,7 @@ export const rolesData: RoleItem[] = [
     title: 'Mobile Engineer',
     period: 'Jul 2022 to Aug 2023',
     location: 'Hybrid, Gwarinpa, Abuja',
-    summary: 'Shipped production Flutter apps for field operations and enterprise workflows, with a focus on speed on low end Android.',
+    summary: 'Shipped production mobile apps for field operations and enterprise workflows, with a focus on speed on low end Android.',
     highlights: [
       'Built capture, validation, and automated bill calculation flows for field teams.',
       'Profiled and cut jank on low end Android by shrinking rebuilds and moving heavy work off the UI thread.',
